@@ -1,0 +1,2045 @@
+&ACCESS RVP
+&REL 65
+&PARAM DISKPATH = KRC:\R1\Program
+DEF ap_8 ( )   
+   ;FOLD INI;%{PE}
+     ;FOLD BASISTECH INI
+       GLOBAL INTERRUPT DECL 3 WHEN $STOPMESS==TRUE DO IR_STOPM ( )
+       INTERRUPT ON 3 
+       BAS (#INITMOV,0 )
+     ;ENDFOLD (BASISTECH INI)
+     ;FOLD USER INI
+       ;Make your modifications here
+     ;ENDFOLD (USER INI)
+   ;ENDFOLD (INI)
+
+   BAS (#VEL_PTP, 0020.0000)
+   BAS (#ACC_PTP, 0020.0000)
+   
+   ;-----SET LIN AND ARC MOTION VARIABLES-----
+   $VEL.ORI1 = 0350.0000
+   $VEL.ORI2 = 0350.0000
+   
+   $ACC.CP = 0005.0000
+   $ACC.ORI1 = 1000.0000
+   $ACC.ORI2 = 1000.0000
+   
+   ;-----APPROXIMATION-----
+   $APO.CVEL = 0100
+   $APO.CPTP = 0100
+   $APO.CDIS = 0006.0000
+   $APO.CORI = 0090.0000
+
+   BAS (#BASE, 1) ;Positioner
+   BAS (#TOOL, 1) ;Vrashatel
+
+   BAS(#VEL_PTP,15)                         ;;Set PTP Axis Velocity
+   BAS(#ACC_PTP,50)                         ;;Set PTP Axis Acceleration
+   PTP{A1 -92,A2 -133,A3 132,A4 7,A5 50,A6 -10}
+   $VEL.CP = 0.060
+   LIN  {X 9.039, Y 9.039, Z 10.900, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 9.040, Y 9.040, Z 10.900, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 9.038, Y 5.103, Z 10.900, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 5.102, Y 9.039, Z 10.900, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 1.968, Y 9.039, Z 10.900, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -9.039, Y -1.968, Z 10.900, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -9.039, Y 1.968, Z 10.900, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 0.070, Y -7.141, Z 10.900, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 1.766, Y -7.142, Z 10.900, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 1.764, Y -8.836, Z 10.900, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 1.968, Y -9.039, Z 10.900, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 9.040, Y -9.040, Z 10.900, A 0.000, B 0.000, C 0.000} C_DIS
+
+;FOLD ARCOFF WDAT2 LIN P4 CPDAT2 Tool[1]:cmttorch Base[1]:vrashatel ;%{PE}
+  ;FOLD Parameters ;%{h}
+    ;Params IlfProvider=kukaroboter.arctech.arcofflin; Kuka.IsGlobalPoint=False; Kuka.PointName=P4; Kuka.BlendingEnabled=False; Kuka.MoveDataName=CPDAT2; Kuka.VelocityPath=0.01; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; ArcTech.WdatVarName=WDAT2; ArcTech.Basic=3.4.3.1264
+  ;ENDFOLD
+  $BWDSTART = FALSE
+  LDAT_ACT = LCPDAT2
+  FDAT_ACT = FP4
+  BAS(#CP_PARAMS, gArcBasVelDefinition)
+  SET_CD_PARAMS (0)
+  TRIGGER WHEN PATH = ArcGetPath(#ArcOffBefore, WDAT2) DELAY = 0 DO ArcMainNG(#ArcOffBeforeOffStd, WDAT2, WP4) PRIO = -1
+  TRIGGER WHEN PATH = ArcGetPath(#OnTheFlyArcOff, WDAT2) DELAY = 0 DO ArcMainNG(#ArcOffMoveStd, WDAT2, WP4) PRIO = -1 
+  ArcMainNG(#ArcOffBeforeMoveStd, WDAT2, WP4)
+  LIN XP4
+  ArcMainNG(#ArcOffAfterMoveStd, WDAT2, WP4)
+;ENDFOLD
+   $VEL.CP = 0.060
+   LIN  {X 9.140, Y -9.040, Z 10.900, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.010
+   LIN  {X 9.140, Y -9.040, Z 11.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.080
+   LIN  {X 7.638, Y -2.607, Z 11.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.080
+   LIN  {X 7.566, Y -0.417, Z 11.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.080
+   LIN  {X 7.865, Y -0.416, Z 11.100, A 0.000, B 0.000, C 0.000} C_DIS
+
+;FOLD ARCON WDAT1 LIN P3 Vel=0.5 m/s CPDAT1 Tool[1]:cmttorch Base[1]:vrashatel ;%{PE}
+  ;FOLD Parameters ;%{h}
+    ;Params IlfProvider=kukaroboter.arctech.arconlin; Kuka.IsGlobalPoint=False; Kuka.PointName=P3; Kuka.BlendingEnabled=False; Kuka.MoveDataName=CPDAT1; Kuka.VelocityPath=0.5; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; ArcTech.WdatVarName=WDAT1; ArcTech.Basic=3.4.3.1264
+  ;ENDFOLD
+  $BWDSTART = FALSE
+  LDAT_ACT = LCPDAT1
+  FDAT_ACT = FP3
+  BAS(#CP_PARAMS, 0.5)
+  SET_CD_PARAMS (0)
+  TRIGGER WHEN DISTANCE = 1 DELAY = ArcGetDelay(#PreDefinition, WDAT1) DO ArcMainNG(#PreDefinition, WDAT1, WP3) PRIO = -1
+  TRIGGER WHEN PATH = ArcGetPath(#OnTheFlyArcOn, WDAT1) DELAY = ArcGetDelay(#GasPreflow, WDAT1) DO ArcMainNG(#GasPreflow, WDAT1, WP3) PRIO = -1
+  TRIGGER WHEN PATH = ArcGetPath(#OnTheFlyArcOn, WDAT1) DELAY = 0 DO ArcMainNG(#ArcOnMoveStd, WDAT1, WP3) PRIO = -1 
+  ArcMainNG(#ArcOnBeforeMoveStd, WDAT1, WP3)
+  LIN XP3
+  ArcMainNG(#ArcOnAfterMoveStd, WDAT1, WP3)
+;ENDFOLD
+   $VEL.CP = 0.025
+   LIN  {X 7.865, Y -0.416, Z 11.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 7.864, Y 1.651, Z 11.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 9.800, Y 1.655, Z 11.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 9.800, Y 9.800, Z 11.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -9.800, Y 9.800, Z 11.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -9.800, Y -9.800, Z 11.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -2.139, Y -9.800, Z 11.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -2.139, Y -7.901, Z 11.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 1.133, Y -7.902, Z 11.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 1.132, Y -9.800, Z 11.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 9.800, Y -9.800, Z 11.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 9.800, Y -2.500, Z 11.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 7.866, Y -2.498, Z 11.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 7.867, Y -0.425, Z 11.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 8.193, Y -0.422, Z 11.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 9.800, Y -0.424, Z 11.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 9.800, Y -0.413, Z 11.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 7.865, Y -0.416, Z 11.100, A 0.000, B 0.000, C 0.000} C_DIS
+
+;FOLD ARCOFF WDAT2 LIN P4 CPDAT2 Tool[1]:cmttorch Base[1]:vrashatel ;%{PE}
+  ;FOLD Parameters ;%{h}
+    ;Params IlfProvider=kukaroboter.arctech.arcofflin; Kuka.IsGlobalPoint=False; Kuka.PointName=P4; Kuka.BlendingEnabled=False; Kuka.MoveDataName=CPDAT2; Kuka.VelocityPath=0.01; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; ArcTech.WdatVarName=WDAT2; ArcTech.Basic=3.4.3.1264
+  ;ENDFOLD
+  $BWDSTART = FALSE
+  LDAT_ACT = LCPDAT2
+  FDAT_ACT = FP4
+  BAS(#CP_PARAMS, gArcBasVelDefinition)
+  SET_CD_PARAMS (0)
+  TRIGGER WHEN PATH = ArcGetPath(#ArcOffBefore, WDAT2) DELAY = 0 DO ArcMainNG(#ArcOffBeforeOffStd, WDAT2, WP4) PRIO = -1
+  TRIGGER WHEN PATH = ArcGetPath(#OnTheFlyArcOff, WDAT2) DELAY = 0 DO ArcMainNG(#ArcOffMoveStd, WDAT2, WP4) PRIO = -1 
+  ArcMainNG(#ArcOffBeforeMoveStd, WDAT2, WP4)
+  LIN XP4
+  ArcMainNG(#ArcOffAfterMoveStd, WDAT2, WP4)
+;ENDFOLD
+   $VEL.CP = 0.080
+   LIN  {X 7.865, Y -0.216, Z 11.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.080
+   LIN  {X 7.425, Y -0.216, Z 11.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.080
+   LIN  {X 7.467, Y -0.817, Z 11.100, A 0.000, B 0.000, C 0.000} C_DIS
+
+;FOLD ARCON WDAT1 LIN P3 Vel=0.5 m/s CPDAT1 Tool[1]:cmttorch Base[1]:vrashatel ;%{PE}
+  ;FOLD Parameters ;%{h}
+    ;Params IlfProvider=kukaroboter.arctech.arconlin; Kuka.IsGlobalPoint=False; Kuka.PointName=P3; Kuka.BlendingEnabled=False; Kuka.MoveDataName=CPDAT1; Kuka.VelocityPath=0.5; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; ArcTech.WdatVarName=WDAT1; ArcTech.Basic=3.4.3.1264
+  ;ENDFOLD
+  $BWDSTART = FALSE
+  LDAT_ACT = LCPDAT1
+  FDAT_ACT = FP3
+  BAS(#CP_PARAMS, 0.5)
+  SET_CD_PARAMS (0)
+  TRIGGER WHEN DISTANCE = 1 DELAY = ArcGetDelay(#PreDefinition, WDAT1) DO ArcMainNG(#PreDefinition, WDAT1, WP3) PRIO = -1
+  TRIGGER WHEN PATH = ArcGetPath(#OnTheFlyArcOn, WDAT1) DELAY = ArcGetDelay(#GasPreflow, WDAT1) DO ArcMainNG(#GasPreflow, WDAT1, WP3) PRIO = -1
+  TRIGGER WHEN PATH = ArcGetPath(#OnTheFlyArcOn, WDAT1) DELAY = 0 DO ArcMainNG(#ArcOnMoveStd, WDAT1, WP3) PRIO = -1 
+  ArcMainNG(#ArcOnBeforeMoveStd, WDAT1, WP3)
+  LIN XP3
+  ArcMainNG(#ArcOnAfterMoveStd, WDAT1, WP3)
+;ENDFOLD
+   $VEL.CP = 0.060
+   LIN  {X 7.464, Y 2.050, Z 11.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 9.400, Y 2.054, Z 11.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 9.400, Y 9.400, Z 11.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -9.400, Y 9.400, Z 11.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -9.400, Y -9.400, Z 11.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -2.539, Y -9.400, Z 11.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -2.539, Y -7.501, Z 11.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 1.533, Y -7.502, Z 11.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 1.532, Y -9.400, Z 11.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 9.400, Y -9.400, Z 11.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 9.400, Y -2.900, Z 11.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 7.466, Y -2.898, Z 11.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 7.467, Y -0.817, Z 11.100, A 0.000, B 0.000, C 0.000} C_DIS
+
+;FOLD ARCOFF WDAT2 LIN P4 CPDAT2 Tool[1]:cmttorch Base[1]:vrashatel ;%{PE}
+  ;FOLD Parameters ;%{h}
+    ;Params IlfProvider=kukaroboter.arctech.arcofflin; Kuka.IsGlobalPoint=False; Kuka.PointName=P4; Kuka.BlendingEnabled=False; Kuka.MoveDataName=CPDAT2; Kuka.VelocityPath=0.01; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; ArcTech.WdatVarName=WDAT2; ArcTech.Basic=3.4.3.1264
+  ;ENDFOLD
+  $BWDSTART = FALSE
+  LDAT_ACT = LCPDAT2
+  FDAT_ACT = FP4
+  BAS(#CP_PARAMS, gArcBasVelDefinition)
+  SET_CD_PARAMS (0)
+  TRIGGER WHEN PATH = ArcGetPath(#ArcOffBefore, WDAT2) DELAY = 0 DO ArcMainNG(#ArcOffBeforeOffStd, WDAT2, WP4) PRIO = -1
+  TRIGGER WHEN PATH = ArcGetPath(#OnTheFlyArcOff, WDAT2) DELAY = 0 DO ArcMainNG(#ArcOffMoveStd, WDAT2, WP4) PRIO = -1 
+  ArcMainNG(#ArcOffBeforeMoveStd, WDAT2, WP4)
+  LIN XP4
+  ArcMainNG(#ArcOffAfterMoveStd, WDAT2, WP4)
+;ENDFOLD
+   $VEL.CP = 0.080
+   LIN  {X 7.620, Y -2.535, Z 11.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.080
+   LIN  {X 9.039, Y -9.039, Z 11.100, A 0.000, B 0.000, C 0.000} C_DIS
+
+;FOLD ARCON WDAT1 LIN P3 Vel=0.5 m/s CPDAT1 Tool[1]:cmttorch Base[1]:vrashatel ;%{PE}
+  ;FOLD Parameters ;%{h}
+    ;Params IlfProvider=kukaroboter.arctech.arconlin; Kuka.IsGlobalPoint=False; Kuka.PointName=P3; Kuka.BlendingEnabled=False; Kuka.MoveDataName=CPDAT1; Kuka.VelocityPath=0.5; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; ArcTech.WdatVarName=WDAT1; ArcTech.Basic=3.4.3.1264
+  ;ENDFOLD
+  $BWDSTART = FALSE
+  LDAT_ACT = LCPDAT1
+  FDAT_ACT = FP3
+  BAS(#CP_PARAMS, 0.5)
+  SET_CD_PARAMS (0)
+  TRIGGER WHEN DISTANCE = 1 DELAY = ArcGetDelay(#PreDefinition, WDAT1) DO ArcMainNG(#PreDefinition, WDAT1, WP3) PRIO = -1
+  TRIGGER WHEN PATH = ArcGetPath(#OnTheFlyArcOn, WDAT1) DELAY = ArcGetDelay(#GasPreflow, WDAT1) DO ArcMainNG(#GasPreflow, WDAT1, WP3) PRIO = -1
+  TRIGGER WHEN PATH = ArcGetPath(#OnTheFlyArcOn, WDAT1) DELAY = 0 DO ArcMainNG(#ArcOnMoveStd, WDAT1, WP3) PRIO = -1 
+  ArcMainNG(#ArcOnBeforeMoveStd, WDAT1, WP3)
+  LIN XP3
+  ArcMainNG(#ArcOnAfterMoveStd, WDAT1, WP3)
+;ENDFOLD
+   $VEL.CP = 0.060
+   LIN  {X 9.039, Y -5.102, Z 11.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 5.102, Y -9.039, Z 11.100, A 0.000, B 0.000, C 0.000} C_DIS
+
+;FOLD ARCOFF WDAT2 LIN P4 CPDAT2 Tool[1]:cmttorch Base[1]:vrashatel ;%{PE}
+  ;FOLD Parameters ;%{h}
+    ;Params IlfProvider=kukaroboter.arctech.arcofflin; Kuka.IsGlobalPoint=False; Kuka.PointName=P4; Kuka.BlendingEnabled=False; Kuka.MoveDataName=CPDAT2; Kuka.VelocityPath=0.01; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; ArcTech.WdatVarName=WDAT2; ArcTech.Basic=3.4.3.1264
+  ;ENDFOLD
+  $BWDSTART = FALSE
+  LDAT_ACT = LCPDAT2
+  FDAT_ACT = FP4
+  BAS(#CP_PARAMS, gArcBasVelDefinition)
+  SET_CD_PARAMS (0)
+  TRIGGER WHEN PATH = ArcGetPath(#ArcOffBefore, WDAT2) DELAY = 0 DO ArcMainNG(#ArcOffBeforeOffStd, WDAT2, WP4) PRIO = -1
+  TRIGGER WHEN PATH = ArcGetPath(#OnTheFlyArcOff, WDAT2) DELAY = 0 DO ArcMainNG(#ArcOffMoveStd, WDAT2, WP4) PRIO = -1 
+  ArcMainNG(#ArcOffBeforeMoveStd, WDAT2, WP4)
+  LIN XP4
+  ArcMainNG(#ArcOffAfterMoveStd, WDAT2, WP4)
+;ENDFOLD
+   $VEL.CP = 0.060
+   LIN  {X 5.032, Y -9.109, Z 11.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.080
+   LIN  {X 9.040, Y -9.040, Z 11.100, A 0.000, B 0.000, C 0.000} C_DIS
+
+;FOLD ARCON WDAT1 LIN P3 Vel=0.5 m/s CPDAT1 Tool[1]:cmttorch Base[1]:vrashatel ;%{PE}
+  ;FOLD Parameters ;%{h}
+    ;Params IlfProvider=kukaroboter.arctech.arconlin; Kuka.IsGlobalPoint=False; Kuka.PointName=P3; Kuka.BlendingEnabled=False; Kuka.MoveDataName=CPDAT1; Kuka.VelocityPath=0.5; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; ArcTech.WdatVarName=WDAT1; ArcTech.Basic=3.4.3.1264
+  ;ENDFOLD
+  $BWDSTART = FALSE
+  LDAT_ACT = LCPDAT1
+  FDAT_ACT = FP3
+  BAS(#CP_PARAMS, 0.5)
+  SET_CD_PARAMS (0)
+  TRIGGER WHEN DISTANCE = 1 DELAY = ArcGetDelay(#PreDefinition, WDAT1) DO ArcMainNG(#PreDefinition, WDAT1, WP3) PRIO = -1
+  TRIGGER WHEN PATH = ArcGetPath(#OnTheFlyArcOn, WDAT1) DELAY = ArcGetDelay(#GasPreflow, WDAT1) DO ArcMainNG(#GasPreflow, WDAT1, WP3) PRIO = -1
+  TRIGGER WHEN PATH = ArcGetPath(#OnTheFlyArcOn, WDAT1) DELAY = 0 DO ArcMainNG(#ArcOnMoveStd, WDAT1, WP3) PRIO = -1 
+  ArcMainNG(#ArcOnBeforeMoveStd, WDAT1, WP3)
+  LIN XP3
+  ArcMainNG(#ArcOnAfterMoveStd, WDAT1, WP3)
+;ENDFOLD
+   $VEL.CP = 0.060
+   LIN  {X 1.968, Y -9.039, Z 11.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 1.892, Y -8.963, Z 11.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 1.893, Y -7.142, Z 11.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 0.070, Y -7.141, Z 11.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -9.039, Y 1.968, Z 11.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -9.039, Y -1.968, Z 11.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 1.968, Y 9.039, Z 11.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 5.102, Y 9.039, Z 11.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 9.038, Y 5.103, Z 11.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 9.040, Y 9.040, Z 11.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 9.039, Y 9.039, Z 11.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -9.039, Y -9.039, Z 11.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -9.039, Y -5.102, Z 11.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -5.102, Y -9.039, Z 11.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -2.899, Y -9.040, Z 11.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -2.899, Y -7.141, Z 11.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -0.069, Y -7.140, Z 11.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 7.105, Y 0.034, Z 11.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 7.105, Y -0.033, Z 11.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -1.968, Y 9.039, Z 11.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -5.102, Y 9.039, Z 11.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -9.039, Y 5.102, Z 11.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -9.040, Y 9.040, Z 11.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -9.039, Y 9.039, Z 11.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 9.039, Y -9.039, Z 11.100, A 0.000, B 0.000, C 0.000} C_DIS
+
+;FOLD ARCOFF WDAT2 LIN P4 CPDAT2 Tool[1]:cmttorch Base[1]:vrashatel ;%{PE}
+  ;FOLD Parameters ;%{h}
+    ;Params IlfProvider=kukaroboter.arctech.arcofflin; Kuka.IsGlobalPoint=False; Kuka.PointName=P4; Kuka.BlendingEnabled=False; Kuka.MoveDataName=CPDAT2; Kuka.VelocityPath=0.01; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; ArcTech.WdatVarName=WDAT2; ArcTech.Basic=3.4.3.1264
+  ;ENDFOLD
+  $BWDSTART = FALSE
+  LDAT_ACT = LCPDAT2
+  FDAT_ACT = FP4
+  BAS(#CP_PARAMS, gArcBasVelDefinition)
+  SET_CD_PARAMS (0)
+  TRIGGER WHEN PATH = ArcGetPath(#ArcOffBefore, WDAT2) DELAY = 0 DO ArcMainNG(#ArcOffBeforeOffStd, WDAT2, WP4) PRIO = -1
+  TRIGGER WHEN PATH = ArcGetPath(#OnTheFlyArcOff, WDAT2) DELAY = 0 DO ArcMainNG(#ArcOffMoveStd, WDAT2, WP4) PRIO = -1 
+  ArcMainNG(#ArcOffBeforeMoveStd, WDAT2, WP4)
+  LIN XP4
+  ArcMainNG(#ArcOffAfterMoveStd, WDAT2, WP4)
+;ENDFOLD
+   $VEL.CP = 0.060
+   LIN  {X 9.109, Y -9.109, Z 11.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.010
+   LIN  {X 9.109, Y -9.109, Z 11.300, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.080
+   LIN  {X 7.638, Y -2.726, Z 11.300, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.080
+   LIN  {X 7.565, Y -0.306, Z 11.300, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.080
+   LIN  {X 7.866, Y -0.305, Z 11.300, A 0.000, B 0.000, C 0.000} C_DIS
+
+;FOLD ARCON WDAT1 LIN P3 Vel=0.5 m/s CPDAT1 Tool[1]:cmttorch Base[1]:vrashatel ;%{PE}
+  ;FOLD Parameters ;%{h}
+    ;Params IlfProvider=kukaroboter.arctech.arconlin; Kuka.IsGlobalPoint=False; Kuka.PointName=P3; Kuka.BlendingEnabled=False; Kuka.MoveDataName=CPDAT1; Kuka.VelocityPath=0.5; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; ArcTech.WdatVarName=WDAT1; ArcTech.Basic=3.4.3.1264
+  ;ENDFOLD
+  $BWDSTART = FALSE
+  LDAT_ACT = LCPDAT1
+  FDAT_ACT = FP3
+  BAS(#CP_PARAMS, 0.5)
+  SET_CD_PARAMS (0)
+  TRIGGER WHEN DISTANCE = 1 DELAY = ArcGetDelay(#PreDefinition, WDAT1) DO ArcMainNG(#PreDefinition, WDAT1, WP3) PRIO = -1
+  TRIGGER WHEN PATH = ArcGetPath(#OnTheFlyArcOn, WDAT1) DELAY = ArcGetDelay(#GasPreflow, WDAT1) DO ArcMainNG(#GasPreflow, WDAT1, WP3) PRIO = -1
+  TRIGGER WHEN PATH = ArcGetPath(#OnTheFlyArcOn, WDAT1) DELAY = 0 DO ArcMainNG(#ArcOnMoveStd, WDAT1, WP3) PRIO = -1 
+  ArcMainNG(#ArcOnBeforeMoveStd, WDAT1, WP3)
+  LIN XP3
+  ArcMainNG(#ArcOnAfterMoveStd, WDAT1, WP3)
+;ENDFOLD
+   $VEL.CP = 0.025
+   LIN  {X 7.866, Y -0.305, Z 11.300, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 7.865, Y 1.764, Z 11.300, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 9.800, Y 1.768, Z 11.300, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 9.800, Y 9.800, Z 11.300, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -9.800, Y 9.800, Z 11.300, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -9.800, Y -9.800, Z 11.300, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -2.251, Y -9.800, Z 11.300, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -2.252, Y -7.901, Z 11.300, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 1.261, Y -7.902, Z 11.300, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 1.260, Y -9.800, Z 11.300, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 9.800, Y -9.800, Z 11.300, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 9.800, Y -2.620, Z 11.300, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 7.867, Y -2.618, Z 11.300, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 7.867, Y -0.541, Z 11.300, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 8.266, Y -0.539, Z 11.300, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 9.800, Y -0.541, Z 11.300, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 9.800, Y -0.302, Z 11.300, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 7.866, Y -0.305, Z 11.300, A 0.000, B 0.000, C 0.000} C_DIS
+
+;FOLD ARCOFF WDAT2 LIN P4 CPDAT2 Tool[1]:cmttorch Base[1]:vrashatel ;%{PE}
+  ;FOLD Parameters ;%{h}
+    ;Params IlfProvider=kukaroboter.arctech.arcofflin; Kuka.IsGlobalPoint=False; Kuka.PointName=P4; Kuka.BlendingEnabled=False; Kuka.MoveDataName=CPDAT2; Kuka.VelocityPath=0.01; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; ArcTech.WdatVarName=WDAT2; ArcTech.Basic=3.4.3.1264
+  ;ENDFOLD
+  $BWDSTART = FALSE
+  LDAT_ACT = LCPDAT2
+  FDAT_ACT = FP4
+  BAS(#CP_PARAMS, gArcBasVelDefinition)
+  SET_CD_PARAMS (0)
+  TRIGGER WHEN PATH = ArcGetPath(#ArcOffBefore, WDAT2) DELAY = 0 DO ArcMainNG(#ArcOffBeforeOffStd, WDAT2, WP4) PRIO = -1
+  TRIGGER WHEN PATH = ArcGetPath(#OnTheFlyArcOff, WDAT2) DELAY = 0 DO ArcMainNG(#ArcOffMoveStd, WDAT2, WP4) PRIO = -1 
+  ArcMainNG(#ArcOffBeforeMoveStd, WDAT2, WP4)
+  LIN XP4
+  ArcMainNG(#ArcOffAfterMoveStd, WDAT2, WP4)
+;ENDFOLD
+   $VEL.CP = 0.080
+   LIN  {X 7.866, Y -0.105, Z 11.300, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.080
+   LIN  {X 7.426, Y -0.105, Z 11.300, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.080
+   LIN  {X 7.467, Y -0.706, Z 11.300, A 0.000, B 0.000, C 0.000} C_DIS
+
+;FOLD ARCON WDAT1 LIN P3 Vel=0.5 m/s CPDAT1 Tool[1]:cmttorch Base[1]:vrashatel ;%{PE}
+  ;FOLD Parameters ;%{h}
+    ;Params IlfProvider=kukaroboter.arctech.arconlin; Kuka.IsGlobalPoint=False; Kuka.PointName=P3; Kuka.BlendingEnabled=False; Kuka.MoveDataName=CPDAT1; Kuka.VelocityPath=0.5; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; ArcTech.WdatVarName=WDAT1; ArcTech.Basic=3.4.3.1264
+  ;ENDFOLD
+  $BWDSTART = FALSE
+  LDAT_ACT = LCPDAT1
+  FDAT_ACT = FP3
+  BAS(#CP_PARAMS, 0.5)
+  SET_CD_PARAMS (0)
+  TRIGGER WHEN DISTANCE = 1 DELAY = ArcGetDelay(#PreDefinition, WDAT1) DO ArcMainNG(#PreDefinition, WDAT1, WP3) PRIO = -1
+  TRIGGER WHEN PATH = ArcGetPath(#OnTheFlyArcOn, WDAT1) DELAY = ArcGetDelay(#GasPreflow, WDAT1) DO ArcMainNG(#GasPreflow, WDAT1, WP3) PRIO = -1
+  TRIGGER WHEN PATH = ArcGetPath(#OnTheFlyArcOn, WDAT1) DELAY = 0 DO ArcMainNG(#ArcOnMoveStd, WDAT1, WP3) PRIO = -1 
+  ArcMainNG(#ArcOnBeforeMoveStd, WDAT1, WP3)
+  LIN XP3
+  ArcMainNG(#ArcOnAfterMoveStd, WDAT1, WP3)
+;ENDFOLD
+   $VEL.CP = 0.060
+   LIN  {X 7.465, Y 2.163, Z 11.300, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 9.400, Y 2.167, Z 11.300, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 9.400, Y 9.400, Z 11.300, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -9.400, Y 9.400, Z 11.300, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -9.400, Y -9.400, Z 11.300, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -2.651, Y -9.400, Z 11.300, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -2.652, Y -7.501, Z 11.300, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 1.661, Y -7.502, Z 11.300, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 1.660, Y -9.400, Z 11.300, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 9.400, Y -9.400, Z 11.300, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 9.400, Y -3.020, Z 11.300, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 7.467, Y -3.018, Z 11.300, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 7.467, Y -0.706, Z 11.300, A 0.000, B 0.000, C 0.000} C_DIS
+
+;FOLD ARCOFF WDAT2 LIN P4 CPDAT2 Tool[1]:cmttorch Base[1]:vrashatel ;%{PE}
+  ;FOLD Parameters ;%{h}
+    ;Params IlfProvider=kukaroboter.arctech.arcofflin; Kuka.IsGlobalPoint=False; Kuka.PointName=P4; Kuka.BlendingEnabled=False; Kuka.MoveDataName=CPDAT2; Kuka.VelocityPath=0.01; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; ArcTech.WdatVarName=WDAT2; ArcTech.Basic=3.4.3.1264
+  ;ENDFOLD
+  $BWDSTART = FALSE
+  LDAT_ACT = LCPDAT2
+  FDAT_ACT = FP4
+  BAS(#CP_PARAMS, gArcBasVelDefinition)
+  SET_CD_PARAMS (0)
+  TRIGGER WHEN PATH = ArcGetPath(#ArcOffBefore, WDAT2) DELAY = 0 DO ArcMainNG(#ArcOffBeforeOffStd, WDAT2, WP4) PRIO = -1
+  TRIGGER WHEN PATH = ArcGetPath(#OnTheFlyArcOff, WDAT2) DELAY = 0 DO ArcMainNG(#ArcOffMoveStd, WDAT2, WP4) PRIO = -1 
+  ArcMainNG(#ArcOffBeforeMoveStd, WDAT2, WP4)
+  LIN XP4
+  ArcMainNG(#ArcOffAfterMoveStd, WDAT2, WP4)
+;ENDFOLD
+   $VEL.CP = 0.080
+   LIN  {X 7.621, Y -2.632, Z 11.300, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.080
+   LIN  {X 9.039, Y -9.039, Z 11.300, A 0.000, B 0.000, C 0.000} C_DIS
+
+;FOLD ARCON WDAT1 LIN P3 Vel=0.5 m/s CPDAT1 Tool[1]:cmttorch Base[1]:vrashatel ;%{PE}
+  ;FOLD Parameters ;%{h}
+    ;Params IlfProvider=kukaroboter.arctech.arconlin; Kuka.IsGlobalPoint=False; Kuka.PointName=P3; Kuka.BlendingEnabled=False; Kuka.MoveDataName=CPDAT1; Kuka.VelocityPath=0.5; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; ArcTech.WdatVarName=WDAT1; ArcTech.Basic=3.4.3.1264
+  ;ENDFOLD
+  $BWDSTART = FALSE
+  LDAT_ACT = LCPDAT1
+  FDAT_ACT = FP3
+  BAS(#CP_PARAMS, 0.5)
+  SET_CD_PARAMS (0)
+  TRIGGER WHEN DISTANCE = 1 DELAY = ArcGetDelay(#PreDefinition, WDAT1) DO ArcMainNG(#PreDefinition, WDAT1, WP3) PRIO = -1
+  TRIGGER WHEN PATH = ArcGetPath(#OnTheFlyArcOn, WDAT1) DELAY = ArcGetDelay(#GasPreflow, WDAT1) DO ArcMainNG(#GasPreflow, WDAT1, WP3) PRIO = -1
+  TRIGGER WHEN PATH = ArcGetPath(#OnTheFlyArcOn, WDAT1) DELAY = 0 DO ArcMainNG(#ArcOnMoveStd, WDAT1, WP3) PRIO = -1 
+  ArcMainNG(#ArcOnBeforeMoveStd, WDAT1, WP3)
+  LIN XP3
+  ArcMainNG(#ArcOnAfterMoveStd, WDAT1, WP3)
+;ENDFOLD
+   $VEL.CP = 0.060
+   LIN  {X 9.039, Y -5.102, Z 11.300, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 5.103, Y -9.038, Z 11.300, A 0.000, B 0.000, C 0.000} C_DIS
+
+;FOLD ARCOFF WDAT2 LIN P4 CPDAT2 Tool[1]:cmttorch Base[1]:vrashatel ;%{PE}
+  ;FOLD Parameters ;%{h}
+    ;Params IlfProvider=kukaroboter.arctech.arcofflin; Kuka.IsGlobalPoint=False; Kuka.PointName=P4; Kuka.BlendingEnabled=False; Kuka.MoveDataName=CPDAT2; Kuka.VelocityPath=0.01; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; ArcTech.WdatVarName=WDAT2; ArcTech.Basic=3.4.3.1264
+  ;ENDFOLD
+  $BWDSTART = FALSE
+  LDAT_ACT = LCPDAT2
+  FDAT_ACT = FP4
+  BAS(#CP_PARAMS, gArcBasVelDefinition)
+  SET_CD_PARAMS (0)
+  TRIGGER WHEN PATH = ArcGetPath(#ArcOffBefore, WDAT2) DELAY = 0 DO ArcMainNG(#ArcOffBeforeOffStd, WDAT2, WP4) PRIO = -1
+  TRIGGER WHEN PATH = ArcGetPath(#OnTheFlyArcOff, WDAT2) DELAY = 0 DO ArcMainNG(#ArcOffMoveStd, WDAT2, WP4) PRIO = -1 
+  ArcMainNG(#ArcOffBeforeMoveStd, WDAT2, WP4)
+  LIN XP4
+  ArcMainNG(#ArcOffAfterMoveStd, WDAT2, WP4)
+;ENDFOLD
+   $VEL.CP = 0.060
+   LIN  {X 5.033, Y -9.108, Z 11.300, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.080
+   LIN  {X 9.040, Y -9.040, Z 11.300, A 0.000, B 0.000, C 0.000} C_DIS
+
+;FOLD ARCON WDAT1 LIN P3 Vel=0.5 m/s CPDAT1 Tool[1]:cmttorch Base[1]:vrashatel ;%{PE}
+  ;FOLD Parameters ;%{h}
+    ;Params IlfProvider=kukaroboter.arctech.arconlin; Kuka.IsGlobalPoint=False; Kuka.PointName=P3; Kuka.BlendingEnabled=False; Kuka.MoveDataName=CPDAT1; Kuka.VelocityPath=0.5; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; ArcTech.WdatVarName=WDAT1; ArcTech.Basic=3.4.3.1264
+  ;ENDFOLD
+  $BWDSTART = FALSE
+  LDAT_ACT = LCPDAT1
+  FDAT_ACT = FP3
+  BAS(#CP_PARAMS, 0.5)
+  SET_CD_PARAMS (0)
+  TRIGGER WHEN DISTANCE = 1 DELAY = ArcGetDelay(#PreDefinition, WDAT1) DO ArcMainNG(#PreDefinition, WDAT1, WP3) PRIO = -1
+  TRIGGER WHEN PATH = ArcGetPath(#OnTheFlyArcOn, WDAT1) DELAY = ArcGetDelay(#GasPreflow, WDAT1) DO ArcMainNG(#GasPreflow, WDAT1, WP3) PRIO = -1
+  TRIGGER WHEN PATH = ArcGetPath(#OnTheFlyArcOn, WDAT1) DELAY = 0 DO ArcMainNG(#ArcOnMoveStd, WDAT1, WP3) PRIO = -1 
+  ArcMainNG(#ArcOnBeforeMoveStd, WDAT1, WP3)
+  LIN XP3
+  ArcMainNG(#ArcOnAfterMoveStd, WDAT1, WP3)
+;ENDFOLD
+   $VEL.CP = 0.060
+   LIN  {X 2.020, Y -9.040, Z 11.300, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 2.021, Y -7.142, Z 11.300, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 0.070, Y -7.141, Z 11.300, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -9.039, Y 1.968, Z 11.300, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -9.039, Y -1.968, Z 11.300, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 1.968, Y 9.039, Z 11.300, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 5.102, Y 9.039, Z 11.300, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 9.039, Y 5.102, Z 11.300, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 9.040, Y 9.040, Z 11.300, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 9.039, Y 9.039, Z 11.300, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -9.039, Y -9.039, Z 11.300, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -9.039, Y -5.102, Z 11.300, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -5.102, Y -9.039, Z 11.300, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -3.011, Y -9.040, Z 11.300, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -3.012, Y -7.141, Z 11.300, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -0.070, Y -7.141, Z 11.300, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 7.106, Y 0.035, Z 11.300, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 7.105, Y -0.034, Z 11.300, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -1.968, Y 9.039, Z 11.300, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -5.102, Y 9.039, Z 11.300, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -9.039, Y 5.102, Z 11.300, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -9.040, Y 9.040, Z 11.300, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -9.039, Y 9.039, Z 11.300, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 9.039, Y -9.039, Z 11.300, A 0.000, B 0.000, C 0.000} C_DIS
+
+;FOLD ARCOFF WDAT2 LIN P4 CPDAT2 Tool[1]:cmttorch Base[1]:vrashatel ;%{PE}
+  ;FOLD Parameters ;%{h}
+    ;Params IlfProvider=kukaroboter.arctech.arcofflin; Kuka.IsGlobalPoint=False; Kuka.PointName=P4; Kuka.BlendingEnabled=False; Kuka.MoveDataName=CPDAT2; Kuka.VelocityPath=0.01; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; ArcTech.WdatVarName=WDAT2; ArcTech.Basic=3.4.3.1264
+  ;ENDFOLD
+  $BWDSTART = FALSE
+  LDAT_ACT = LCPDAT2
+  FDAT_ACT = FP4
+  BAS(#CP_PARAMS, gArcBasVelDefinition)
+  SET_CD_PARAMS (0)
+  TRIGGER WHEN PATH = ArcGetPath(#ArcOffBefore, WDAT2) DELAY = 0 DO ArcMainNG(#ArcOffBeforeOffStd, WDAT2, WP4) PRIO = -1
+  TRIGGER WHEN PATH = ArcGetPath(#OnTheFlyArcOff, WDAT2) DELAY = 0 DO ArcMainNG(#ArcOffMoveStd, WDAT2, WP4) PRIO = -1 
+  ArcMainNG(#ArcOffBeforeMoveStd, WDAT2, WP4)
+  LIN XP4
+  ArcMainNG(#ArcOffAfterMoveStd, WDAT2, WP4)
+;ENDFOLD
+   $VEL.CP = 0.060
+   LIN  {X 9.109, Y -9.109, Z 11.300, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.010
+   LIN  {X 9.109, Y -9.109, Z 11.500, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.080
+   LIN  {X 7.639, Y -2.846, Z 11.500, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.080
+   LIN  {X 7.566, Y -0.195, Z 11.500, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.080
+   LIN  {X 7.866, Y -0.194, Z 11.500, A 0.000, B 0.000, C 0.000} C_DIS
+
+;FOLD ARCON WDAT1 LIN P3 Vel=0.5 m/s CPDAT1 Tool[1]:cmttorch Base[1]:vrashatel ;%{PE}
+  ;FOLD Parameters ;%{h}
+    ;Params IlfProvider=kukaroboter.arctech.arconlin; Kuka.IsGlobalPoint=False; Kuka.PointName=P3; Kuka.BlendingEnabled=False; Kuka.MoveDataName=CPDAT1; Kuka.VelocityPath=0.5; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; ArcTech.WdatVarName=WDAT1; ArcTech.Basic=3.4.3.1264
+  ;ENDFOLD
+  $BWDSTART = FALSE
+  LDAT_ACT = LCPDAT1
+  FDAT_ACT = FP3
+  BAS(#CP_PARAMS, 0.5)
+  SET_CD_PARAMS (0)
+  TRIGGER WHEN DISTANCE = 1 DELAY = ArcGetDelay(#PreDefinition, WDAT1) DO ArcMainNG(#PreDefinition, WDAT1, WP3) PRIO = -1
+  TRIGGER WHEN PATH = ArcGetPath(#OnTheFlyArcOn, WDAT1) DELAY = ArcGetDelay(#GasPreflow, WDAT1) DO ArcMainNG(#GasPreflow, WDAT1, WP3) PRIO = -1
+  TRIGGER WHEN PATH = ArcGetPath(#OnTheFlyArcOn, WDAT1) DELAY = 0 DO ArcMainNG(#ArcOnMoveStd, WDAT1, WP3) PRIO = -1 
+  ArcMainNG(#ArcOnBeforeMoveStd, WDAT1, WP3)
+  LIN XP3
+  ArcMainNG(#ArcOnAfterMoveStd, WDAT1, WP3)
+;ENDFOLD
+   $VEL.CP = 0.025
+   LIN  {X 7.866, Y -0.194, Z 11.500, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 7.865, Y 1.878, Z 11.500, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 9.800, Y 1.881, Z 11.500, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 9.800, Y 9.800, Z 11.500, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -9.800, Y 9.800, Z 11.500, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -9.800, Y -9.800, Z 11.500, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -2.364, Y -9.800, Z 11.500, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -2.365, Y -7.901, Z 11.500, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 1.389, Y -7.902, Z 11.500, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 1.388, Y -9.800, Z 11.500, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 9.800, Y -9.800, Z 11.500, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 9.800, Y -2.739, Z 11.500, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 7.867, Y -2.737, Z 11.500, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 7.867, Y -0.658, Z 11.500, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 8.338, Y -0.656, Z 11.500, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 9.800, Y -0.658, Z 11.500, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 9.800, Y -0.191, Z 11.500, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 7.866, Y -0.194, Z 11.500, A 0.000, B 0.000, C 0.000} C_DIS
+
+;FOLD ARCOFF WDAT2 LIN P4 CPDAT2 Tool[1]:cmttorch Base[1]:vrashatel ;%{PE}
+  ;FOLD Parameters ;%{h}
+    ;Params IlfProvider=kukaroboter.arctech.arcofflin; Kuka.IsGlobalPoint=False; Kuka.PointName=P4; Kuka.BlendingEnabled=False; Kuka.MoveDataName=CPDAT2; Kuka.VelocityPath=0.01; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; ArcTech.WdatVarName=WDAT2; ArcTech.Basic=3.4.3.1264
+  ;ENDFOLD
+  $BWDSTART = FALSE
+  LDAT_ACT = LCPDAT2
+  FDAT_ACT = FP4
+  BAS(#CP_PARAMS, gArcBasVelDefinition)
+  SET_CD_PARAMS (0)
+  TRIGGER WHEN PATH = ArcGetPath(#ArcOffBefore, WDAT2) DELAY = 0 DO ArcMainNG(#ArcOffBeforeOffStd, WDAT2, WP4) PRIO = -1
+  TRIGGER WHEN PATH = ArcGetPath(#OnTheFlyArcOff, WDAT2) DELAY = 0 DO ArcMainNG(#ArcOffMoveStd, WDAT2, WP4) PRIO = -1 
+  ArcMainNG(#ArcOffBeforeMoveStd, WDAT2, WP4)
+  LIN XP4
+  ArcMainNG(#ArcOffAfterMoveStd, WDAT2, WP4)
+;ENDFOLD
+   $VEL.CP = 0.080
+   LIN  {X 7.866, Y 0.006, Z 11.500, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.080
+   LIN  {X 7.426, Y 0.006, Z 11.500, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.080
+   LIN  {X 7.467, Y -0.595, Z 11.500, A 0.000, B 0.000, C 0.000} C_DIS
+
+;FOLD ARCON WDAT1 LIN P3 Vel=0.5 m/s CPDAT1 Tool[1]:cmttorch Base[1]:vrashatel ;%{PE}
+  ;FOLD Parameters ;%{h}
+    ;Params IlfProvider=kukaroboter.arctech.arconlin; Kuka.IsGlobalPoint=False; Kuka.PointName=P3; Kuka.BlendingEnabled=False; Kuka.MoveDataName=CPDAT1; Kuka.VelocityPath=0.5; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; ArcTech.WdatVarName=WDAT1; ArcTech.Basic=3.4.3.1264
+  ;ENDFOLD
+  $BWDSTART = FALSE
+  LDAT_ACT = LCPDAT1
+  FDAT_ACT = FP3
+  BAS(#CP_PARAMS, 0.5)
+  SET_CD_PARAMS (0)
+  TRIGGER WHEN DISTANCE = 1 DELAY = ArcGetDelay(#PreDefinition, WDAT1) DO ArcMainNG(#PreDefinition, WDAT1, WP3) PRIO = -1
+  TRIGGER WHEN PATH = ArcGetPath(#OnTheFlyArcOn, WDAT1) DELAY = ArcGetDelay(#GasPreflow, WDAT1) DO ArcMainNG(#GasPreflow, WDAT1, WP3) PRIO = -1
+  TRIGGER WHEN PATH = ArcGetPath(#OnTheFlyArcOn, WDAT1) DELAY = 0 DO ArcMainNG(#ArcOnMoveStd, WDAT1, WP3) PRIO = -1 
+  ArcMainNG(#ArcOnBeforeMoveStd, WDAT1, WP3)
+  LIN XP3
+  ArcMainNG(#ArcOnAfterMoveStd, WDAT1, WP3)
+;ENDFOLD
+   $VEL.CP = 0.060
+   LIN  {X 7.465, Y 2.277, Z 11.500, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 9.400, Y 2.280, Z 11.500, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 9.400, Y 9.400, Z 11.500, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -9.400, Y 9.400, Z 11.500, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -9.400, Y -9.400, Z 11.500, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -2.764, Y -9.400, Z 11.500, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -2.765, Y -7.501, Z 11.500, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 1.789, Y -7.502, Z 11.500, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 1.788, Y -9.400, Z 11.500, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 9.400, Y -9.400, Z 11.500, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 9.400, Y -3.139, Z 11.500, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 7.467, Y -3.137, Z 11.500, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 7.467, Y -0.595, Z 11.500, A 0.000, B 0.000, C 0.000} C_DIS
+
+;FOLD ARCOFF WDAT2 LIN P4 CPDAT2 Tool[1]:cmttorch Base[1]:vrashatel ;%{PE}
+  ;FOLD Parameters ;%{h}
+    ;Params IlfProvider=kukaroboter.arctech.arcofflin; Kuka.IsGlobalPoint=False; Kuka.PointName=P4; Kuka.BlendingEnabled=False; Kuka.MoveDataName=CPDAT2; Kuka.VelocityPath=0.01; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; ArcTech.WdatVarName=WDAT2; ArcTech.Basic=3.4.3.1264
+  ;ENDFOLD
+  $BWDSTART = FALSE
+  LDAT_ACT = LCPDAT2
+  FDAT_ACT = FP4
+  BAS(#CP_PARAMS, gArcBasVelDefinition)
+  SET_CD_PARAMS (0)
+  TRIGGER WHEN PATH = ArcGetPath(#ArcOffBefore, WDAT2) DELAY = 0 DO ArcMainNG(#ArcOffBeforeOffStd, WDAT2, WP4) PRIO = -1
+  TRIGGER WHEN PATH = ArcGetPath(#OnTheFlyArcOff, WDAT2) DELAY = 0 DO ArcMainNG(#ArcOffMoveStd, WDAT2, WP4) PRIO = -1 
+  ArcMainNG(#ArcOffBeforeMoveStd, WDAT2, WP4)
+  LIN XP4
+  ArcMainNG(#ArcOffAfterMoveStd, WDAT2, WP4)
+;ENDFOLD
+   $VEL.CP = 0.080
+   LIN  {X 7.639, Y -2.965, Z 11.500, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.080
+   LIN  {X 9.039, Y -9.039, Z 11.500, A 0.000, B 0.000, C 0.000} C_DIS
+
+;FOLD ARCON WDAT1 LIN P3 Vel=0.5 m/s CPDAT1 Tool[1]:cmttorch Base[1]:vrashatel ;%{PE}
+  ;FOLD Parameters ;%{h}
+    ;Params IlfProvider=kukaroboter.arctech.arconlin; Kuka.IsGlobalPoint=False; Kuka.PointName=P3; Kuka.BlendingEnabled=False; Kuka.MoveDataName=CPDAT1; Kuka.VelocityPath=0.5; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; ArcTech.WdatVarName=WDAT1; ArcTech.Basic=3.4.3.1264
+  ;ENDFOLD
+  $BWDSTART = FALSE
+  LDAT_ACT = LCPDAT1
+  FDAT_ACT = FP3
+  BAS(#CP_PARAMS, 0.5)
+  SET_CD_PARAMS (0)
+  TRIGGER WHEN DISTANCE = 1 DELAY = ArcGetDelay(#PreDefinition, WDAT1) DO ArcMainNG(#PreDefinition, WDAT1, WP3) PRIO = -1
+  TRIGGER WHEN PATH = ArcGetPath(#OnTheFlyArcOn, WDAT1) DELAY = ArcGetDelay(#GasPreflow, WDAT1) DO ArcMainNG(#GasPreflow, WDAT1, WP3) PRIO = -1
+  TRIGGER WHEN PATH = ArcGetPath(#OnTheFlyArcOn, WDAT1) DELAY = 0 DO ArcMainNG(#ArcOnMoveStd, WDAT1, WP3) PRIO = -1 
+  ArcMainNG(#ArcOnBeforeMoveStd, WDAT1, WP3)
+  LIN XP3
+  ArcMainNG(#ArcOnAfterMoveStd, WDAT1, WP3)
+;ENDFOLD
+   $VEL.CP = 0.060
+   LIN  {X 9.039, Y -5.102, Z 11.500, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 5.102, Y -9.039, Z 11.500, A 0.000, B 0.000, C 0.000} C_DIS
+
+;FOLD ARCOFF WDAT2 LIN P4 CPDAT2 Tool[1]:cmttorch Base[1]:vrashatel ;%{PE}
+  ;FOLD Parameters ;%{h}
+    ;Params IlfProvider=kukaroboter.arctech.arcofflin; Kuka.IsGlobalPoint=False; Kuka.PointName=P4; Kuka.BlendingEnabled=False; Kuka.MoveDataName=CPDAT2; Kuka.VelocityPath=0.01; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; ArcTech.WdatVarName=WDAT2; ArcTech.Basic=3.4.3.1264
+  ;ENDFOLD
+  $BWDSTART = FALSE
+  LDAT_ACT = LCPDAT2
+  FDAT_ACT = FP4
+  BAS(#CP_PARAMS, gArcBasVelDefinition)
+  SET_CD_PARAMS (0)
+  TRIGGER WHEN PATH = ArcGetPath(#ArcOffBefore, WDAT2) DELAY = 0 DO ArcMainNG(#ArcOffBeforeOffStd, WDAT2, WP4) PRIO = -1
+  TRIGGER WHEN PATH = ArcGetPath(#OnTheFlyArcOff, WDAT2) DELAY = 0 DO ArcMainNG(#ArcOffMoveStd, WDAT2, WP4) PRIO = -1 
+  ArcMainNG(#ArcOffBeforeMoveStd, WDAT2, WP4)
+  LIN XP4
+  ArcMainNG(#ArcOffAfterMoveStd, WDAT2, WP4)
+;ENDFOLD
+   $VEL.CP = 0.060
+   LIN  {X 5.032, Y -9.109, Z 11.500, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.080
+   LIN  {X 9.040, Y -9.040, Z 11.500, A 0.000, B 0.000, C 0.000} C_DIS
+
+;FOLD ARCON WDAT1 LIN P3 Vel=0.5 m/s CPDAT1 Tool[1]:cmttorch Base[1]:vrashatel ;%{PE}
+  ;FOLD Parameters ;%{h}
+    ;Params IlfProvider=kukaroboter.arctech.arconlin; Kuka.IsGlobalPoint=False; Kuka.PointName=P3; Kuka.BlendingEnabled=False; Kuka.MoveDataName=CPDAT1; Kuka.VelocityPath=0.5; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; ArcTech.WdatVarName=WDAT1; ArcTech.Basic=3.4.3.1264
+  ;ENDFOLD
+  $BWDSTART = FALSE
+  LDAT_ACT = LCPDAT1
+  FDAT_ACT = FP3
+  BAS(#CP_PARAMS, 0.5)
+  SET_CD_PARAMS (0)
+  TRIGGER WHEN DISTANCE = 1 DELAY = ArcGetDelay(#PreDefinition, WDAT1) DO ArcMainNG(#PreDefinition, WDAT1, WP3) PRIO = -1
+  TRIGGER WHEN PATH = ArcGetPath(#OnTheFlyArcOn, WDAT1) DELAY = ArcGetDelay(#GasPreflow, WDAT1) DO ArcMainNG(#GasPreflow, WDAT1, WP3) PRIO = -1
+  TRIGGER WHEN PATH = ArcGetPath(#OnTheFlyArcOn, WDAT1) DELAY = 0 DO ArcMainNG(#ArcOnMoveStd, WDAT1, WP3) PRIO = -1 
+  ArcMainNG(#ArcOnBeforeMoveStd, WDAT1, WP3)
+  LIN XP3
+  ArcMainNG(#ArcOnAfterMoveStd, WDAT1, WP3)
+;ENDFOLD
+   $VEL.CP = 0.060
+   LIN  {X 2.148, Y -9.040, Z 11.500, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 2.149, Y -7.142, Z 11.500, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 0.070, Y -7.141, Z 11.500, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -9.039, Y 1.968, Z 11.500, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -9.039, Y -1.968, Z 11.500, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 1.968, Y 9.039, Z 11.500, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 5.102, Y 9.039, Z 11.500, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 9.039, Y 5.102, Z 11.500, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 9.040, Y 9.040, Z 11.500, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 9.039, Y 9.039, Z 11.500, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -9.039, Y -9.039, Z 11.500, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -9.039, Y -5.102, Z 11.500, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -5.102, Y -9.039, Z 11.500, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -3.124, Y -9.040, Z 11.500, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -3.125, Y -7.141, Z 11.500, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -0.069, Y -7.140, Z 11.500, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 7.106, Y 0.035, Z 11.500, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 7.105, Y -0.034, Z 11.500, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -1.968, Y 9.039, Z 11.500, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -5.102, Y 9.039, Z 11.500, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -9.039, Y 5.102, Z 11.500, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -9.040, Y 9.040, Z 11.500, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -9.039, Y 9.039, Z 11.500, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 9.039, Y -9.039, Z 11.500, A 0.000, B 0.000, C 0.000} C_DIS
+
+;FOLD ARCOFF WDAT2 LIN P4 CPDAT2 Tool[1]:cmttorch Base[1]:vrashatel ;%{PE}
+  ;FOLD Parameters ;%{h}
+    ;Params IlfProvider=kukaroboter.arctech.arcofflin; Kuka.IsGlobalPoint=False; Kuka.PointName=P4; Kuka.BlendingEnabled=False; Kuka.MoveDataName=CPDAT2; Kuka.VelocityPath=0.01; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; ArcTech.WdatVarName=WDAT2; ArcTech.Basic=3.4.3.1264
+  ;ENDFOLD
+  $BWDSTART = FALSE
+  LDAT_ACT = LCPDAT2
+  FDAT_ACT = FP4
+  BAS(#CP_PARAMS, gArcBasVelDefinition)
+  SET_CD_PARAMS (0)
+  TRIGGER WHEN PATH = ArcGetPath(#ArcOffBefore, WDAT2) DELAY = 0 DO ArcMainNG(#ArcOffBeforeOffStd, WDAT2, WP4) PRIO = -1
+  TRIGGER WHEN PATH = ArcGetPath(#OnTheFlyArcOff, WDAT2) DELAY = 0 DO ArcMainNG(#ArcOffMoveStd, WDAT2, WP4) PRIO = -1 
+  ArcMainNG(#ArcOffBeforeMoveStd, WDAT2, WP4)
+  LIN XP4
+  ArcMainNG(#ArcOffAfterMoveStd, WDAT2, WP4)
+;ENDFOLD
+   $VEL.CP = 0.060
+   LIN  {X 9.109, Y -9.109, Z 11.500, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.010
+   LIN  {X 9.109, Y -9.109, Z 11.700, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.080
+   LIN  {X 1.617, Y -7.674, Z 11.700, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.080
+   LIN  {X -2.593, Y -7.673, Z 11.700, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.080
+   LIN  {X -2.664, Y -7.902, Z 11.700, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.080
+   LIN  {X -2.478, Y -7.901, Z 11.700, A 0.000, B 0.000, C 0.000} C_DIS
+
+;FOLD ARCON WDAT1 LIN P3 Vel=0.5 m/s CPDAT1 Tool[1]:cmttorch Base[1]:vrashatel ;%{PE}
+  ;FOLD Parameters ;%{h}
+    ;Params IlfProvider=kukaroboter.arctech.arconlin; Kuka.IsGlobalPoint=False; Kuka.PointName=P3; Kuka.BlendingEnabled=False; Kuka.MoveDataName=CPDAT1; Kuka.VelocityPath=0.5; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; ArcTech.WdatVarName=WDAT1; ArcTech.Basic=3.4.3.1264
+  ;ENDFOLD
+  $BWDSTART = FALSE
+  LDAT_ACT = LCPDAT1
+  FDAT_ACT = FP3
+  BAS(#CP_PARAMS, 0.5)
+  SET_CD_PARAMS (0)
+  TRIGGER WHEN DISTANCE = 1 DELAY = ArcGetDelay(#PreDefinition, WDAT1) DO ArcMainNG(#PreDefinition, WDAT1, WP3) PRIO = -1
+  TRIGGER WHEN PATH = ArcGetPath(#OnTheFlyArcOn, WDAT1) DELAY = ArcGetDelay(#GasPreflow, WDAT1) DO ArcMainNG(#GasPreflow, WDAT1, WP3) PRIO = -1
+  TRIGGER WHEN PATH = ArcGetPath(#OnTheFlyArcOn, WDAT1) DELAY = 0 DO ArcMainNG(#ArcOnMoveStd, WDAT1, WP3) PRIO = -1 
+  ArcMainNG(#ArcOnBeforeMoveStd, WDAT1, WP3)
+  LIN XP3
+  ArcMainNG(#ArcOnAfterMoveStd, WDAT1, WP3)
+;ENDFOLD
+   $VEL.CP = 0.025
+   LIN  {X -2.478, Y -7.901, Z 11.700, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 1.517, Y -7.902, Z 11.700, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 1.516, Y -9.800, Z 11.700, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 9.800, Y -9.800, Z 11.700, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 9.800, Y -2.859, Z 11.700, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 7.867, Y -2.857, Z 11.700, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 7.868, Y -0.775, Z 11.700, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 8.410, Y -0.773, Z 11.700, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 9.800, Y -0.775, Z 11.700, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 9.800, Y -0.080, Z 11.700, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 7.866, Y -0.082, Z 11.700, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 7.865, Y 1.991, Z 11.700, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 9.800, Y 1.995, Z 11.700, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 9.800, Y 9.800, Z 11.700, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -9.800, Y 9.800, Z 11.700, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -9.800, Y -9.800, Z 11.700, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -2.477, Y -9.800, Z 11.700, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -2.478, Y -7.901, Z 11.700, A 0.000, B 0.000, C 0.000} C_DIS
+
+;FOLD ARCOFF WDAT2 LIN P4 CPDAT2 Tool[1]:cmttorch Base[1]:vrashatel ;%{PE}
+  ;FOLD Parameters ;%{h}
+    ;Params IlfProvider=kukaroboter.arctech.arcofflin; Kuka.IsGlobalPoint=False; Kuka.PointName=P4; Kuka.BlendingEnabled=False; Kuka.MoveDataName=CPDAT2; Kuka.VelocityPath=0.01; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; ArcTech.WdatVarName=WDAT2; ArcTech.Basic=3.4.3.1264
+  ;ENDFOLD
+  $BWDSTART = FALSE
+  LDAT_ACT = LCPDAT2
+  FDAT_ACT = FP4
+  BAS(#CP_PARAMS, gArcBasVelDefinition)
+  SET_CD_PARAMS (0)
+  TRIGGER WHEN PATH = ArcGetPath(#ArcOffBefore, WDAT2) DELAY = 0 DO ArcMainNG(#ArcOffBeforeOffStd, WDAT2, WP4) PRIO = -1
+  TRIGGER WHEN PATH = ArcGetPath(#OnTheFlyArcOff, WDAT2) DELAY = 0 DO ArcMainNG(#ArcOffMoveStd, WDAT2, WP4) PRIO = -1 
+  ArcMainNG(#ArcOffBeforeMoveStd, WDAT2, WP4)
+  LIN XP4
+  ArcMainNG(#ArcOffAfterMoveStd, WDAT2, WP4)
+;ENDFOLD
+   $VEL.CP = 0.080
+   LIN  {X -2.278, Y -7.901, Z 11.700, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.080
+   LIN  {X -2.278, Y -7.461, Z 11.700, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.080
+   LIN  {X -2.878, Y -7.501, Z 11.700, A 0.000, B 0.000, C 0.000} C_DIS
+
+;FOLD ARCON WDAT1 LIN P3 Vel=0.5 m/s CPDAT1 Tool[1]:cmttorch Base[1]:vrashatel ;%{PE}
+  ;FOLD Parameters ;%{h}
+    ;Params IlfProvider=kukaroboter.arctech.arconlin; Kuka.IsGlobalPoint=False; Kuka.PointName=P3; Kuka.BlendingEnabled=False; Kuka.MoveDataName=CPDAT1; Kuka.VelocityPath=0.5; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; ArcTech.WdatVarName=WDAT1; ArcTech.Basic=3.4.3.1264
+  ;ENDFOLD
+  $BWDSTART = FALSE
+  LDAT_ACT = LCPDAT1
+  FDAT_ACT = FP3
+  BAS(#CP_PARAMS, 0.5)
+  SET_CD_PARAMS (0)
+  TRIGGER WHEN DISTANCE = 1 DELAY = ArcGetDelay(#PreDefinition, WDAT1) DO ArcMainNG(#PreDefinition, WDAT1, WP3) PRIO = -1
+  TRIGGER WHEN PATH = ArcGetPath(#OnTheFlyArcOn, WDAT1) DELAY = ArcGetDelay(#GasPreflow, WDAT1) DO ArcMainNG(#GasPreflow, WDAT1, WP3) PRIO = -1
+  TRIGGER WHEN PATH = ArcGetPath(#OnTheFlyArcOn, WDAT1) DELAY = 0 DO ArcMainNG(#ArcOnMoveStd, WDAT1, WP3) PRIO = -1 
+  ArcMainNG(#ArcOnBeforeMoveStd, WDAT1, WP3)
+  LIN XP3
+  ArcMainNG(#ArcOnAfterMoveStd, WDAT1, WP3)
+;ENDFOLD
+   $VEL.CP = 0.060
+   LIN  {X 1.917, Y -7.502, Z 11.700, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 1.916, Y -9.400, Z 11.700, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 9.400, Y -9.400, Z 11.700, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 9.400, Y -3.259, Z 11.700, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 7.467, Y -3.257, Z 11.700, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 7.468, Y -0.482, Z 11.700, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 7.465, Y 2.390, Z 11.700, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 9.400, Y 2.394, Z 11.700, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 9.400, Y 9.400, Z 11.700, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -9.400, Y 9.400, Z 11.700, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -9.400, Y -9.400, Z 11.700, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -2.877, Y -9.400, Z 11.700, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -2.878, Y -7.501, Z 11.700, A 0.000, B 0.000, C 0.000} C_DIS
+
+;FOLD ARCOFF WDAT2 LIN P4 CPDAT2 Tool[1]:cmttorch Base[1]:vrashatel ;%{PE}
+  ;FOLD Parameters ;%{h}
+    ;Params IlfProvider=kukaroboter.arctech.arcofflin; Kuka.IsGlobalPoint=False; Kuka.PointName=P4; Kuka.BlendingEnabled=False; Kuka.MoveDataName=CPDAT2; Kuka.VelocityPath=0.01; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; ArcTech.WdatVarName=WDAT2; ArcTech.Basic=3.4.3.1264
+  ;ENDFOLD
+  $BWDSTART = FALSE
+  LDAT_ACT = LCPDAT2
+  FDAT_ACT = FP4
+  BAS(#CP_PARAMS, gArcBasVelDefinition)
+  SET_CD_PARAMS (0)
+  TRIGGER WHEN PATH = ArcGetPath(#ArcOffBefore, WDAT2) DELAY = 0 DO ArcMainNG(#ArcOffBeforeOffStd, WDAT2, WP4) PRIO = -1
+  TRIGGER WHEN PATH = ArcGetPath(#OnTheFlyArcOff, WDAT2) DELAY = 0 DO ArcMainNG(#ArcOffMoveStd, WDAT2, WP4) PRIO = -1 
+  ArcMainNG(#ArcOffBeforeMoveStd, WDAT2, WP4)
+  LIN XP4
+  ArcMainNG(#ArcOffAfterMoveStd, WDAT2, WP4)
+;ENDFOLD
+   $VEL.CP = 0.080
+   LIN  {X 1.745, Y -7.674, Z 11.700, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.080
+   LIN  {X 5.103, Y -9.038, Z 11.700, A 0.000, B 0.000, C 0.000} C_DIS
+
+;FOLD ARCON WDAT1 LIN P3 Vel=0.5 m/s CPDAT1 Tool[1]:cmttorch Base[1]:vrashatel ;%{PE}
+  ;FOLD Parameters ;%{h}
+    ;Params IlfProvider=kukaroboter.arctech.arconlin; Kuka.IsGlobalPoint=False; Kuka.PointName=P3; Kuka.BlendingEnabled=False; Kuka.MoveDataName=CPDAT1; Kuka.VelocityPath=0.5; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; ArcTech.WdatVarName=WDAT1; ArcTech.Basic=3.4.3.1264
+  ;ENDFOLD
+  $BWDSTART = FALSE
+  LDAT_ACT = LCPDAT1
+  FDAT_ACT = FP3
+  BAS(#CP_PARAMS, 0.5)
+  SET_CD_PARAMS (0)
+  TRIGGER WHEN DISTANCE = 1 DELAY = ArcGetDelay(#PreDefinition, WDAT1) DO ArcMainNG(#PreDefinition, WDAT1, WP3) PRIO = -1
+  TRIGGER WHEN PATH = ArcGetPath(#OnTheFlyArcOn, WDAT1) DELAY = ArcGetDelay(#GasPreflow, WDAT1) DO ArcMainNG(#GasPreflow, WDAT1, WP3) PRIO = -1
+  TRIGGER WHEN PATH = ArcGetPath(#OnTheFlyArcOn, WDAT1) DELAY = 0 DO ArcMainNG(#ArcOnMoveStd, WDAT1, WP3) PRIO = -1 
+  ArcMainNG(#ArcOnBeforeMoveStd, WDAT1, WP3)
+  LIN XP3
+  ArcMainNG(#ArcOnAfterMoveStd, WDAT1, WP3)
+;ENDFOLD
+   $VEL.CP = 0.060
+   LIN  {X 9.039, Y -5.102, Z 11.700, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 9.039, Y -9.039, Z 11.700, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -9.039, Y 9.039, Z 11.700, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -9.040, Y 9.040, Z 11.700, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -9.039, Y 5.102, Z 11.700, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -5.102, Y 9.039, Z 11.700, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -1.968, Y 9.039, Z 11.700, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 7.106, Y -0.035, Z 11.700, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 7.107, Y 0.036, Z 11.700, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -0.070, Y -7.141, Z 11.700, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -3.238, Y -7.141, Z 11.700, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -3.237, Y -9.040, Z 11.700, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -5.102, Y -9.039, Z 11.700, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -9.039, Y -5.102, Z 11.700, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -9.039, Y -9.039, Z 11.700, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 9.039, Y 9.039, Z 11.700, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 9.040, Y 9.040, Z 11.700, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 9.038, Y 5.103, Z 11.700, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 5.102, Y 9.039, Z 11.700, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 1.968, Y 9.039, Z 11.700, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -9.039, Y -1.968, Z 11.700, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -9.039, Y 1.968, Z 11.700, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 0.070, Y -7.141, Z 11.700, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 2.277, Y -7.142, Z 11.700, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 2.276, Y -9.040, Z 11.700, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 9.040, Y -9.040, Z 11.700, A 0.000, B 0.000, C 0.000} C_DIS
+
+;FOLD ARCOFF WDAT2 LIN P4 CPDAT2 Tool[1]:cmttorch Base[1]:vrashatel ;%{PE}
+  ;FOLD Parameters ;%{h}
+    ;Params IlfProvider=kukaroboter.arctech.arcofflin; Kuka.IsGlobalPoint=False; Kuka.PointName=P4; Kuka.BlendingEnabled=False; Kuka.MoveDataName=CPDAT2; Kuka.VelocityPath=0.01; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; ArcTech.WdatVarName=WDAT2; ArcTech.Basic=3.4.3.1264
+  ;ENDFOLD
+  $BWDSTART = FALSE
+  LDAT_ACT = LCPDAT2
+  FDAT_ACT = FP4
+  BAS(#CP_PARAMS, gArcBasVelDefinition)
+  SET_CD_PARAMS (0)
+  TRIGGER WHEN PATH = ArcGetPath(#ArcOffBefore, WDAT2) DELAY = 0 DO ArcMainNG(#ArcOffBeforeOffStd, WDAT2, WP4) PRIO = -1
+  TRIGGER WHEN PATH = ArcGetPath(#OnTheFlyArcOff, WDAT2) DELAY = 0 DO ArcMainNG(#ArcOffMoveStd, WDAT2, WP4) PRIO = -1 
+  ArcMainNG(#ArcOffBeforeMoveStd, WDAT2, WP4)
+  LIN XP4
+  ArcMainNG(#ArcOffAfterMoveStd, WDAT2, WP4)
+;ENDFOLD
+   $VEL.CP = 0.060
+   LIN  {X 9.140, Y -9.040, Z 11.700, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.080
+   LIN  {X 7.639, Y -3.085, Z 11.700, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.080
+   LIN  {X 7.640, Y -0.548, Z 11.700, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.080
+   LIN  {X 9.064, Y -0.474, Z 11.700, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.080
+   LIN  {X 8.912, Y -0.427, Z 11.700, A 0.000, B 0.000, C 0.000} C_DIS
+
+;FOLD ARCON WDAT1 LIN P3 Vel=0.5 m/s CPDAT1 Tool[1]:cmttorch Base[1]:vrashatel ;%{PE}
+  ;FOLD Parameters ;%{h}
+    ;Params IlfProvider=kukaroboter.arctech.arconlin; Kuka.IsGlobalPoint=False; Kuka.PointName=P3; Kuka.BlendingEnabled=False; Kuka.MoveDataName=CPDAT1; Kuka.VelocityPath=0.5; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; ArcTech.WdatVarName=WDAT1; ArcTech.Basic=3.4.3.1264
+  ;ENDFOLD
+  $BWDSTART = FALSE
+  LDAT_ACT = LCPDAT1
+  FDAT_ACT = FP3
+  BAS(#CP_PARAMS, 0.5)
+  SET_CD_PARAMS (0)
+  TRIGGER WHEN DISTANCE = 1 DELAY = ArcGetDelay(#PreDefinition, WDAT1) DO ArcMainNG(#PreDefinition, WDAT1, WP3) PRIO = -1
+  TRIGGER WHEN PATH = ArcGetPath(#OnTheFlyArcOn, WDAT1) DELAY = ArcGetDelay(#GasPreflow, WDAT1) DO ArcMainNG(#GasPreflow, WDAT1, WP3) PRIO = -1
+  TRIGGER WHEN PATH = ArcGetPath(#OnTheFlyArcOn, WDAT1) DELAY = 0 DO ArcMainNG(#ArcOnMoveStd, WDAT1, WP3) PRIO = -1 
+  ArcMainNG(#ArcOnBeforeMoveStd, WDAT1, WP3)
+  LIN XP3
+  ArcMainNG(#ArcOnAfterMoveStd, WDAT1, WP3)
+;ENDFOLD
+   $VEL.CP = 0.060
+   LIN  {X 8.629, Y -0.426, Z 11.700, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 7.790, Y -0.436, Z 11.700, A 0.000, B 0.000, C 0.000} C_DIS
+
+;FOLD ARCOFF WDAT2 LIN P4 CPDAT2 Tool[1]:cmttorch Base[1]:vrashatel ;%{PE}
+  ;FOLD Parameters ;%{h}
+    ;Params IlfProvider=kukaroboter.arctech.arcofflin; Kuka.IsGlobalPoint=False; Kuka.PointName=P4; Kuka.BlendingEnabled=False; Kuka.MoveDataName=CPDAT2; Kuka.VelocityPath=0.01; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; ArcTech.WdatVarName=WDAT2; ArcTech.Basic=3.4.3.1264
+  ;ENDFOLD
+  $BWDSTART = FALSE
+  LDAT_ACT = LCPDAT2
+  FDAT_ACT = FP4
+  BAS(#CP_PARAMS, gArcBasVelDefinition)
+  SET_CD_PARAMS (0)
+  TRIGGER WHEN PATH = ArcGetPath(#ArcOffBefore, WDAT2) DELAY = 0 DO ArcMainNG(#ArcOffBeforeOffStd, WDAT2, WP4) PRIO = -1
+  TRIGGER WHEN PATH = ArcGetPath(#OnTheFlyArcOff, WDAT2) DELAY = 0 DO ArcMainNG(#ArcOffMoveStd, WDAT2, WP4) PRIO = -1 
+  ArcMainNG(#ArcOffBeforeMoveStd, WDAT2, WP4)
+  LIN XP4
+  ArcMainNG(#ArcOffAfterMoveStd, WDAT2, WP4)
+;ENDFOLD
+   $VEL.CP = 0.080
+   LIN  {X 7.596, Y -0.352, Z 11.700, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.080
+   LIN  {X 9.044, Y -0.380, Z 11.700, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.080
+   LIN  {X 9.043, Y -0.275, Z 11.700, A 0.000, B 0.000, C 0.000} C_DIS
+
+;FOLD ARCON WDAT1 LIN P3 Vel=0.5 m/s CPDAT1 Tool[1]:cmttorch Base[1]:vrashatel ;%{PE}
+  ;FOLD Parameters ;%{h}
+    ;Params IlfProvider=kukaroboter.arctech.arconlin; Kuka.IsGlobalPoint=False; Kuka.PointName=P3; Kuka.BlendingEnabled=False; Kuka.MoveDataName=CPDAT1; Kuka.VelocityPath=0.5; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; ArcTech.WdatVarName=WDAT1; ArcTech.Basic=3.4.3.1264
+  ;ENDFOLD
+  $BWDSTART = FALSE
+  LDAT_ACT = LCPDAT1
+  FDAT_ACT = FP3
+  BAS(#CP_PARAMS, 0.5)
+  SET_CD_PARAMS (0)
+  TRIGGER WHEN DISTANCE = 1 DELAY = ArcGetDelay(#PreDefinition, WDAT1) DO ArcMainNG(#PreDefinition, WDAT1, WP3) PRIO = -1
+  TRIGGER WHEN PATH = ArcGetPath(#OnTheFlyArcOn, WDAT1) DELAY = ArcGetDelay(#GasPreflow, WDAT1) DO ArcMainNG(#GasPreflow, WDAT1, WP3) PRIO = -1
+  TRIGGER WHEN PATH = ArcGetPath(#OnTheFlyArcOn, WDAT1) DELAY = 0 DO ArcMainNG(#ArcOnMoveStd, WDAT1, WP3) PRIO = -1 
+  ArcMainNG(#ArcOnBeforeMoveStd, WDAT1, WP3)
+  LIN XP3
+  ArcMainNG(#ArcOnAfterMoveStd, WDAT1, WP3)
+;ENDFOLD
+   $VEL.CP = 0.060
+   LIN  {X 9.347, Y -0.579, Z 11.700, A 0.000, B 0.000, C 0.000} C_DIS
+
+;FOLD ARCOFF WDAT2 LIN P4 CPDAT2 Tool[1]:cmttorch Base[1]:vrashatel ;%{PE}
+  ;FOLD Parameters ;%{h}
+    ;Params IlfProvider=kukaroboter.arctech.arcofflin; Kuka.IsGlobalPoint=False; Kuka.PointName=P4; Kuka.BlendingEnabled=False; Kuka.MoveDataName=CPDAT2; Kuka.VelocityPath=0.01; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; ArcTech.WdatVarName=WDAT2; ArcTech.Basic=3.4.3.1264
+  ;ENDFOLD
+  $BWDSTART = FALSE
+  LDAT_ACT = LCPDAT2
+  FDAT_ACT = FP4
+  BAS(#CP_PARAMS, gArcBasVelDefinition)
+  SET_CD_PARAMS (0)
+  TRIGGER WHEN PATH = ArcGetPath(#ArcOffBefore, WDAT2) DELAY = 0 DO ArcMainNG(#ArcOffBeforeOffStd, WDAT2, WP4) PRIO = -1
+  TRIGGER WHEN PATH = ArcGetPath(#OnTheFlyArcOff, WDAT2) DELAY = 0 DO ArcMainNG(#ArcOffMoveStd, WDAT2, WP4) PRIO = -1 
+  ArcMainNG(#ArcOffBeforeMoveStd, WDAT2, WP4)
+  LIN XP4
+  ArcMainNG(#ArcOffAfterMoveStd, WDAT2, WP4)
+;ENDFOLD
+   $VEL.CP = 0.080
+   LIN  {X 9.603, Y -0.552, Z 11.700, A 0.000, B 0.000, C 0.000} C_DIS
+
+;FOLD ARCON WDAT1 LIN P3 Vel=0.5 m/s CPDAT1 Tool[1]:cmttorch Base[1]:vrashatel ;%{PE}
+  ;FOLD Parameters ;%{h}
+    ;Params IlfProvider=kukaroboter.arctech.arconlin; Kuka.IsGlobalPoint=False; Kuka.PointName=P3; Kuka.BlendingEnabled=False; Kuka.MoveDataName=CPDAT1; Kuka.VelocityPath=0.5; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; ArcTech.WdatVarName=WDAT1; ArcTech.Basic=3.4.3.1264
+  ;ENDFOLD
+  $BWDSTART = FALSE
+  LDAT_ACT = LCPDAT1
+  FDAT_ACT = FP3
+  BAS(#CP_PARAMS, 0.5)
+  SET_CD_PARAMS (0)
+  TRIGGER WHEN DISTANCE = 1 DELAY = ArcGetDelay(#PreDefinition, WDAT1) DO ArcMainNG(#PreDefinition, WDAT1, WP3) PRIO = -1
+  TRIGGER WHEN PATH = ArcGetPath(#OnTheFlyArcOn, WDAT1) DELAY = ArcGetDelay(#GasPreflow, WDAT1) DO ArcMainNG(#GasPreflow, WDAT1, WP3) PRIO = -1
+  TRIGGER WHEN PATH = ArcGetPath(#OnTheFlyArcOn, WDAT1) DELAY = 0 DO ArcMainNG(#ArcOnMoveStd, WDAT1, WP3) PRIO = -1 
+  ArcMainNG(#ArcOnBeforeMoveStd, WDAT1, WP3)
+  LIN XP3
+  ArcMainNG(#ArcOnAfterMoveStd, WDAT1, WP3)
+;ENDFOLD
+   $VEL.CP = 0.060
+   LIN  {X 9.326, Y -0.275, Z 11.700, A 0.000, B 0.000, C 0.000} C_DIS
+
+;FOLD ARCOFF WDAT2 LIN P4 CPDAT2 Tool[1]:cmttorch Base[1]:vrashatel ;%{PE}
+  ;FOLD Parameters ;%{h}
+    ;Params IlfProvider=kukaroboter.arctech.arcofflin; Kuka.IsGlobalPoint=False; Kuka.PointName=P4; Kuka.BlendingEnabled=False; Kuka.MoveDataName=CPDAT2; Kuka.VelocityPath=0.01; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; ArcTech.WdatVarName=WDAT2; ArcTech.Basic=3.4.3.1264
+  ;ENDFOLD
+  $BWDSTART = FALSE
+  LDAT_ACT = LCPDAT2
+  FDAT_ACT = FP4
+  BAS(#CP_PARAMS, gArcBasVelDefinition)
+  SET_CD_PARAMS (0)
+  TRIGGER WHEN PATH = ArcGetPath(#ArcOffBefore, WDAT2) DELAY = 0 DO ArcMainNG(#ArcOffBeforeOffStd, WDAT2, WP4) PRIO = -1
+  TRIGGER WHEN PATH = ArcGetPath(#OnTheFlyArcOff, WDAT2) DELAY = 0 DO ArcMainNG(#ArcOffMoveStd, WDAT2, WP4) PRIO = -1 
+  ArcMainNG(#ArcOffBeforeMoveStd, WDAT2, WP4)
+  LIN XP4
+  ArcMainNG(#ArcOffAfterMoveStd, WDAT2, WP4)
+;ENDFOLD
+   $VEL.CP = 0.010
+   LIN  {X 9.326, Y -0.275, Z 11.900, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.080
+   LIN  {X 9.327, Y -0.380, Z 11.900, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.080
+   LIN  {X 7.638, Y -0.310, Z 11.900, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.080
+   LIN  {X 7.566, Y 0.028, Z 11.900, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.080
+   LIN  {X 7.866, Y 0.029, Z 11.900, A 0.000, B 0.000, C 0.000} C_DIS
+
+;FOLD ARCON WDAT1 LIN P3 Vel=0.5 m/s CPDAT1 Tool[1]:cmttorch Base[1]:vrashatel ;%{PE}
+  ;FOLD Parameters ;%{h}
+    ;Params IlfProvider=kukaroboter.arctech.arconlin; Kuka.IsGlobalPoint=False; Kuka.PointName=P3; Kuka.BlendingEnabled=False; Kuka.MoveDataName=CPDAT1; Kuka.VelocityPath=0.5; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; ArcTech.WdatVarName=WDAT1; ArcTech.Basic=3.4.3.1264
+  ;ENDFOLD
+  $BWDSTART = FALSE
+  LDAT_ACT = LCPDAT1
+  FDAT_ACT = FP3
+  BAS(#CP_PARAMS, 0.5)
+  SET_CD_PARAMS (0)
+  TRIGGER WHEN DISTANCE = 1 DELAY = ArcGetDelay(#PreDefinition, WDAT1) DO ArcMainNG(#PreDefinition, WDAT1, WP3) PRIO = -1
+  TRIGGER WHEN PATH = ArcGetPath(#OnTheFlyArcOn, WDAT1) DELAY = ArcGetDelay(#GasPreflow, WDAT1) DO ArcMainNG(#GasPreflow, WDAT1, WP3) PRIO = -1
+  TRIGGER WHEN PATH = ArcGetPath(#OnTheFlyArcOn, WDAT1) DELAY = 0 DO ArcMainNG(#ArcOnMoveStd, WDAT1, WP3) PRIO = -1 
+  ArcMainNG(#ArcOnBeforeMoveStd, WDAT1, WP3)
+  LIN XP3
+  ArcMainNG(#ArcOnAfterMoveStd, WDAT1, WP3)
+;ENDFOLD
+   $VEL.CP = 0.025
+   LIN  {X 7.866, Y 0.029, Z 11.900, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 7.865, Y 2.104, Z 11.900, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 9.800, Y 2.108, Z 11.900, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 9.800, Y 9.800, Z 11.900, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -9.800, Y 9.800, Z 11.900, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -9.800, Y -9.800, Z 11.900, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -2.589, Y -9.800, Z 11.900, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -2.590, Y -7.901, Z 11.900, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -0.529, Y -7.901, Z 11.900, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -0.527, Y -9.800, Z 11.900, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -0.372, Y -9.800, Z 11.900, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -0.370, Y -7.901, Z 11.900, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 1.645, Y -7.902, Z 11.900, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 1.644, Y -9.800, Z 11.900, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 9.800, Y -9.800, Z 11.900, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 9.800, Y -2.978, Z 11.900, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 7.868, Y -2.977, Z 11.900, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 7.868, Y -0.891, Z 11.900, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 9.800, Y -0.892, Z 11.900, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 9.800, Y 0.032, Z 11.900, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 7.866, Y 0.029, Z 11.900, A 0.000, B 0.000, C 0.000} C_DIS
+
+;FOLD ARCOFF WDAT2 LIN P4 CPDAT2 Tool[1]:cmttorch Base[1]:vrashatel ;%{PE}
+  ;FOLD Parameters ;%{h}
+    ;Params IlfProvider=kukaroboter.arctech.arcofflin; Kuka.IsGlobalPoint=False; Kuka.PointName=P4; Kuka.BlendingEnabled=False; Kuka.MoveDataName=CPDAT2; Kuka.VelocityPath=0.01; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; ArcTech.WdatVarName=WDAT2; ArcTech.Basic=3.4.3.1264
+  ;ENDFOLD
+  $BWDSTART = FALSE
+  LDAT_ACT = LCPDAT2
+  FDAT_ACT = FP4
+  BAS(#CP_PARAMS, gArcBasVelDefinition)
+  SET_CD_PARAMS (0)
+  TRIGGER WHEN PATH = ArcGetPath(#ArcOffBefore, WDAT2) DELAY = 0 DO ArcMainNG(#ArcOffBeforeOffStd, WDAT2, WP4) PRIO = -1
+  TRIGGER WHEN PATH = ArcGetPath(#OnTheFlyArcOff, WDAT2) DELAY = 0 DO ArcMainNG(#ArcOffMoveStd, WDAT2, WP4) PRIO = -1 
+  ArcMainNG(#ArcOffBeforeMoveStd, WDAT2, WP4)
+  LIN XP4
+  ArcMainNG(#ArcOffAfterMoveStd, WDAT2, WP4)
+;ENDFOLD
+   $VEL.CP = 0.080
+   LIN  {X 7.866, Y 0.229, Z 11.900, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.080
+   LIN  {X 7.426, Y 0.229, Z 11.900, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.080
+   LIN  {X 7.466, Y -0.372, Z 11.900, A 0.000, B 0.000, C 0.000} C_DIS
+
+;FOLD ARCON WDAT1 LIN P3 Vel=0.5 m/s CPDAT1 Tool[1]:cmttorch Base[1]:vrashatel ;%{PE}
+  ;FOLD Parameters ;%{h}
+    ;Params IlfProvider=kukaroboter.arctech.arconlin; Kuka.IsGlobalPoint=False; Kuka.PointName=P3; Kuka.BlendingEnabled=False; Kuka.MoveDataName=CPDAT1; Kuka.VelocityPath=0.5; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; ArcTech.WdatVarName=WDAT1; ArcTech.Basic=3.4.3.1264
+  ;ENDFOLD
+  $BWDSTART = FALSE
+  LDAT_ACT = LCPDAT1
+  FDAT_ACT = FP3
+  BAS(#CP_PARAMS, 0.5)
+  SET_CD_PARAMS (0)
+  TRIGGER WHEN DISTANCE = 1 DELAY = ArcGetDelay(#PreDefinition, WDAT1) DO ArcMainNG(#PreDefinition, WDAT1, WP3) PRIO = -1
+  TRIGGER WHEN PATH = ArcGetPath(#OnTheFlyArcOn, WDAT1) DELAY = ArcGetDelay(#GasPreflow, WDAT1) DO ArcMainNG(#GasPreflow, WDAT1, WP3) PRIO = -1
+  TRIGGER WHEN PATH = ArcGetPath(#OnTheFlyArcOn, WDAT1) DELAY = 0 DO ArcMainNG(#ArcOnMoveStd, WDAT1, WP3) PRIO = -1 
+  ArcMainNG(#ArcOnBeforeMoveStd, WDAT1, WP3)
+  LIN XP3
+  ArcMainNG(#ArcOnAfterMoveStd, WDAT1, WP3)
+;ENDFOLD
+   $VEL.CP = 0.060
+   LIN  {X 7.465, Y 2.503, Z 11.900, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 9.400, Y 2.507, Z 11.900, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 9.400, Y 9.400, Z 11.900, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -9.400, Y 9.400, Z 11.900, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -9.400, Y -9.400, Z 11.900, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -2.989, Y -9.400, Z 11.900, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -2.990, Y -7.501, Z 11.900, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 2.045, Y -7.502, Z 11.900, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 2.044, Y -9.400, Z 11.900, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 9.400, Y -9.400, Z 11.900, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 9.400, Y -3.378, Z 11.900, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 7.468, Y -3.377, Z 11.900, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 7.468, Y -0.491, Z 11.900, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 9.400, Y -0.492, Z 11.900, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 9.400, Y -0.369, Z 11.900, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 7.466, Y -0.372, Z 11.900, A 0.000, B 0.000, C 0.000} C_DIS
+
+;FOLD ARCOFF WDAT2 LIN P4 CPDAT2 Tool[1]:cmttorch Base[1]:vrashatel ;%{PE}
+  ;FOLD Parameters ;%{h}
+    ;Params IlfProvider=kukaroboter.arctech.arcofflin; Kuka.IsGlobalPoint=False; Kuka.PointName=P4; Kuka.BlendingEnabled=False; Kuka.MoveDataName=CPDAT2; Kuka.VelocityPath=0.01; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; ArcTech.WdatVarName=WDAT2; ArcTech.Basic=3.4.3.1264
+  ;ENDFOLD
+  $BWDSTART = FALSE
+  LDAT_ACT = LCPDAT2
+  FDAT_ACT = FP4
+  BAS(#CP_PARAMS, gArcBasVelDefinition)
+  SET_CD_PARAMS (0)
+  TRIGGER WHEN PATH = ArcGetPath(#ArcOffBefore, WDAT2) DELAY = 0 DO ArcMainNG(#ArcOffBeforeOffStd, WDAT2, WP4) PRIO = -1
+  TRIGGER WHEN PATH = ArcGetPath(#OnTheFlyArcOff, WDAT2) DELAY = 0 DO ArcMainNG(#ArcOffMoveStd, WDAT2, WP4) PRIO = -1 
+  ArcMainNG(#ArcOffBeforeMoveStd, WDAT2, WP4)
+  LIN XP4
+  ArcMainNG(#ArcOffAfterMoveStd, WDAT2, WP4)
+;ENDFOLD
+   $VEL.CP = 0.080
+   LIN  {X 7.640, Y -3.205, Z 11.900, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.080
+   LIN  {X 9.039, Y -9.039, Z 11.900, A 0.000, B 0.000, C 0.000} C_DIS
+
+;FOLD ARCON WDAT1 LIN P3 Vel=0.5 m/s CPDAT1 Tool[1]:cmttorch Base[1]:vrashatel ;%{PE}
+  ;FOLD Parameters ;%{h}
+    ;Params IlfProvider=kukaroboter.arctech.arconlin; Kuka.IsGlobalPoint=False; Kuka.PointName=P3; Kuka.BlendingEnabled=False; Kuka.MoveDataName=CPDAT1; Kuka.VelocityPath=0.5; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; ArcTech.WdatVarName=WDAT1; ArcTech.Basic=3.4.3.1264
+  ;ENDFOLD
+  $BWDSTART = FALSE
+  LDAT_ACT = LCPDAT1
+  FDAT_ACT = FP3
+  BAS(#CP_PARAMS, 0.5)
+  SET_CD_PARAMS (0)
+  TRIGGER WHEN DISTANCE = 1 DELAY = ArcGetDelay(#PreDefinition, WDAT1) DO ArcMainNG(#PreDefinition, WDAT1, WP3) PRIO = -1
+  TRIGGER WHEN PATH = ArcGetPath(#OnTheFlyArcOn, WDAT1) DELAY = ArcGetDelay(#GasPreflow, WDAT1) DO ArcMainNG(#GasPreflow, WDAT1, WP3) PRIO = -1
+  TRIGGER WHEN PATH = ArcGetPath(#OnTheFlyArcOn, WDAT1) DELAY = 0 DO ArcMainNG(#ArcOnMoveStd, WDAT1, WP3) PRIO = -1 
+  ArcMainNG(#ArcOnBeforeMoveStd, WDAT1, WP3)
+  LIN XP3
+  ArcMainNG(#ArcOnAfterMoveStd, WDAT1, WP3)
+;ENDFOLD
+   $VEL.CP = 0.060
+   LIN  {X 9.039, Y -5.102, Z 11.900, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 5.102, Y -9.039, Z 11.900, A 0.000, B 0.000, C 0.000} C_DIS
+
+;FOLD ARCOFF WDAT2 LIN P4 CPDAT2 Tool[1]:cmttorch Base[1]:vrashatel ;%{PE}
+  ;FOLD Parameters ;%{h}
+    ;Params IlfProvider=kukaroboter.arctech.arcofflin; Kuka.IsGlobalPoint=False; Kuka.PointName=P4; Kuka.BlendingEnabled=False; Kuka.MoveDataName=CPDAT2; Kuka.VelocityPath=0.01; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; ArcTech.WdatVarName=WDAT2; ArcTech.Basic=3.4.3.1264
+  ;ENDFOLD
+  $BWDSTART = FALSE
+  LDAT_ACT = LCPDAT2
+  FDAT_ACT = FP4
+  BAS(#CP_PARAMS, gArcBasVelDefinition)
+  SET_CD_PARAMS (0)
+  TRIGGER WHEN PATH = ArcGetPath(#ArcOffBefore, WDAT2) DELAY = 0 DO ArcMainNG(#ArcOffBeforeOffStd, WDAT2, WP4) PRIO = -1
+  TRIGGER WHEN PATH = ArcGetPath(#OnTheFlyArcOff, WDAT2) DELAY = 0 DO ArcMainNG(#ArcOffMoveStd, WDAT2, WP4) PRIO = -1 
+  ArcMainNG(#ArcOffBeforeMoveStd, WDAT2, WP4)
+  LIN XP4
+  ArcMainNG(#ArcOffAfterMoveStd, WDAT2, WP4)
+;ENDFOLD
+   $VEL.CP = 0.060
+   LIN  {X 5.032, Y -9.109, Z 11.900, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.080
+   LIN  {X 9.040, Y -9.040, Z 11.900, A 0.000, B 0.000, C 0.000} C_DIS
+
+;FOLD ARCON WDAT1 LIN P3 Vel=0.5 m/s CPDAT1 Tool[1]:cmttorch Base[1]:vrashatel ;%{PE}
+  ;FOLD Parameters ;%{h}
+    ;Params IlfProvider=kukaroboter.arctech.arconlin; Kuka.IsGlobalPoint=False; Kuka.PointName=P3; Kuka.BlendingEnabled=False; Kuka.MoveDataName=CPDAT1; Kuka.VelocityPath=0.5; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; ArcTech.WdatVarName=WDAT1; ArcTech.Basic=3.4.3.1264
+  ;ENDFOLD
+  $BWDSTART = FALSE
+  LDAT_ACT = LCPDAT1
+  FDAT_ACT = FP3
+  BAS(#CP_PARAMS, 0.5)
+  SET_CD_PARAMS (0)
+  TRIGGER WHEN DISTANCE = 1 DELAY = ArcGetDelay(#PreDefinition, WDAT1) DO ArcMainNG(#PreDefinition, WDAT1, WP3) PRIO = -1
+  TRIGGER WHEN PATH = ArcGetPath(#OnTheFlyArcOn, WDAT1) DELAY = ArcGetDelay(#GasPreflow, WDAT1) DO ArcMainNG(#GasPreflow, WDAT1, WP3) PRIO = -1
+  TRIGGER WHEN PATH = ArcGetPath(#OnTheFlyArcOn, WDAT1) DELAY = 0 DO ArcMainNG(#ArcOnMoveStd, WDAT1, WP3) PRIO = -1 
+  ArcMainNG(#ArcOnBeforeMoveStd, WDAT1, WP3)
+  LIN XP3
+  ArcMainNG(#ArcOnAfterMoveStd, WDAT1, WP3)
+;ENDFOLD
+   $VEL.CP = 0.060
+   LIN  {X 2.404, Y -9.040, Z 11.900, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 2.405, Y -7.142, Z 11.900, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 0.070, Y -7.141, Z 11.900, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -9.039, Y 1.968, Z 11.900, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -9.039, Y -1.968, Z 11.900, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 1.968, Y 9.039, Z 11.900, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 5.102, Y 9.039, Z 11.900, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 9.038, Y 5.103, Z 11.900, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 9.040, Y 9.040, Z 11.900, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 9.039, Y 9.039, Z 11.900, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -9.039, Y -9.039, Z 11.900, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -9.039, Y -5.102, Z 11.900, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -5.102, Y -9.039, Z 11.900, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -3.349, Y -9.040, Z 11.900, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -3.350, Y -7.141, Z 11.900, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -0.069, Y -7.140, Z 11.900, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 7.105, Y 0.034, Z 11.900, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 7.105, Y -0.033, Z 11.900, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -1.968, Y 9.039, Z 11.900, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -5.102, Y 9.039, Z 11.900, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -9.039, Y 5.102, Z 11.900, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -9.040, Y 9.040, Z 11.900, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -9.039, Y 9.039, Z 11.900, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 9.039, Y -9.039, Z 11.900, A 0.000, B 0.000, C 0.000} C_DIS
+
+;FOLD ARCOFF WDAT2 LIN P4 CPDAT2 Tool[1]:cmttorch Base[1]:vrashatel ;%{PE}
+  ;FOLD Parameters ;%{h}
+    ;Params IlfProvider=kukaroboter.arctech.arcofflin; Kuka.IsGlobalPoint=False; Kuka.PointName=P4; Kuka.BlendingEnabled=False; Kuka.MoveDataName=CPDAT2; Kuka.VelocityPath=0.01; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; ArcTech.WdatVarName=WDAT2; ArcTech.Basic=3.4.3.1264
+  ;ENDFOLD
+  $BWDSTART = FALSE
+  LDAT_ACT = LCPDAT2
+  FDAT_ACT = FP4
+  BAS(#CP_PARAMS, gArcBasVelDefinition)
+  SET_CD_PARAMS (0)
+  TRIGGER WHEN PATH = ArcGetPath(#ArcOffBefore, WDAT2) DELAY = 0 DO ArcMainNG(#ArcOffBeforeOffStd, WDAT2, WP4) PRIO = -1
+  TRIGGER WHEN PATH = ArcGetPath(#OnTheFlyArcOff, WDAT2) DELAY = 0 DO ArcMainNG(#ArcOffMoveStd, WDAT2, WP4) PRIO = -1 
+  ArcMainNG(#ArcOffBeforeMoveStd, WDAT2, WP4)
+  LIN XP4
+  ArcMainNG(#ArcOffAfterMoveStd, WDAT2, WP4)
+;ENDFOLD
+   $VEL.CP = 0.060
+   LIN  {X 9.109, Y -9.109, Z 11.900, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.010
+   LIN  {X 9.109, Y -9.109, Z 12.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.080
+   LIN  {X 7.640, Y -3.205, Z 12.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.080
+   LIN  {X 7.566, Y 0.139, Z 12.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.080
+   LIN  {X 7.867, Y 0.140, Z 12.100, A 0.000, B 0.000, C 0.000} C_DIS
+
+;FOLD ARCON WDAT1 LIN P3 Vel=0.5 m/s CPDAT1 Tool[1]:cmttorch Base[1]:vrashatel ;%{PE}
+  ;FOLD Parameters ;%{h}
+    ;Params IlfProvider=kukaroboter.arctech.arconlin; Kuka.IsGlobalPoint=False; Kuka.PointName=P3; Kuka.BlendingEnabled=False; Kuka.MoveDataName=CPDAT1; Kuka.VelocityPath=0.5; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; ArcTech.WdatVarName=WDAT1; ArcTech.Basic=3.4.3.1264
+  ;ENDFOLD
+  $BWDSTART = FALSE
+  LDAT_ACT = LCPDAT1
+  FDAT_ACT = FP3
+  BAS(#CP_PARAMS, 0.5)
+  SET_CD_PARAMS (0)
+  TRIGGER WHEN DISTANCE = 1 DELAY = ArcGetDelay(#PreDefinition, WDAT1) DO ArcMainNG(#PreDefinition, WDAT1, WP3) PRIO = -1
+  TRIGGER WHEN PATH = ArcGetPath(#OnTheFlyArcOn, WDAT1) DELAY = ArcGetDelay(#GasPreflow, WDAT1) DO ArcMainNG(#GasPreflow, WDAT1, WP3) PRIO = -1
+  TRIGGER WHEN PATH = ArcGetPath(#OnTheFlyArcOn, WDAT1) DELAY = 0 DO ArcMainNG(#ArcOnMoveStd, WDAT1, WP3) PRIO = -1 
+  ArcMainNG(#ArcOnBeforeMoveStd, WDAT1, WP3)
+  LIN XP3
+  ArcMainNG(#ArcOnAfterMoveStd, WDAT1, WP3)
+;ENDFOLD
+   $VEL.CP = 0.025
+   LIN  {X 7.867, Y 0.140, Z 12.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 7.866, Y 2.218, Z 12.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 9.800, Y 2.221, Z 12.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 9.800, Y 9.800, Z 12.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -9.800, Y 9.800, Z 12.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -9.800, Y -9.800, Z 12.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -2.702, Y -9.800, Z 12.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -2.703, Y -7.900, Z 12.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -0.642, Y -7.900, Z 12.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -0.640, Y -9.800, Z 12.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -0.246, Y -9.800, Z 12.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -0.244, Y -7.900, Z 12.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 1.773, Y -7.901, Z 12.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 1.771, Y -9.800, Z 12.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 9.800, Y -9.800, Z 12.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 9.800, Y -3.098, Z 12.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 7.868, Y -3.096, Z 12.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 7.868, Y -1.008, Z 12.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 9.800, Y -1.009, Z 12.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 9.800, Y 0.143, Z 12.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 7.867, Y 0.140, Z 12.100, A 0.000, B 0.000, C 0.000} C_DIS
+
+;FOLD ARCOFF WDAT2 LIN P4 CPDAT2 Tool[1]:cmttorch Base[1]:vrashatel ;%{PE}
+  ;FOLD Parameters ;%{h}
+    ;Params IlfProvider=kukaroboter.arctech.arcofflin; Kuka.IsGlobalPoint=False; Kuka.PointName=P4; Kuka.BlendingEnabled=False; Kuka.MoveDataName=CPDAT2; Kuka.VelocityPath=0.01; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; ArcTech.WdatVarName=WDAT2; ArcTech.Basic=3.4.3.1264
+  ;ENDFOLD
+  $BWDSTART = FALSE
+  LDAT_ACT = LCPDAT2
+  FDAT_ACT = FP4
+  BAS(#CP_PARAMS, gArcBasVelDefinition)
+  SET_CD_PARAMS (0)
+  TRIGGER WHEN PATH = ArcGetPath(#ArcOffBefore, WDAT2) DELAY = 0 DO ArcMainNG(#ArcOffBeforeOffStd, WDAT2, WP4) PRIO = -1
+  TRIGGER WHEN PATH = ArcGetPath(#OnTheFlyArcOff, WDAT2) DELAY = 0 DO ArcMainNG(#ArcOffMoveStd, WDAT2, WP4) PRIO = -1 
+  ArcMainNG(#ArcOffBeforeMoveStd, WDAT2, WP4)
+  LIN XP4
+  ArcMainNG(#ArcOffAfterMoveStd, WDAT2, WP4)
+;ENDFOLD
+   $VEL.CP = 0.080
+   LIN  {X 7.867, Y 0.340, Z 12.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.080
+   LIN  {X 7.427, Y 0.340, Z 12.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.080
+   LIN  {X 7.467, Y -0.261, Z 12.100, A 0.000, B 0.000, C 0.000} C_DIS
+
+;FOLD ARCON WDAT1 LIN P3 Vel=0.5 m/s CPDAT1 Tool[1]:cmttorch Base[1]:vrashatel ;%{PE}
+  ;FOLD Parameters ;%{h}
+    ;Params IlfProvider=kukaroboter.arctech.arconlin; Kuka.IsGlobalPoint=False; Kuka.PointName=P3; Kuka.BlendingEnabled=False; Kuka.MoveDataName=CPDAT1; Kuka.VelocityPath=0.5; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; ArcTech.WdatVarName=WDAT1; ArcTech.Basic=3.4.3.1264
+  ;ENDFOLD
+  $BWDSTART = FALSE
+  LDAT_ACT = LCPDAT1
+  FDAT_ACT = FP3
+  BAS(#CP_PARAMS, 0.5)
+  SET_CD_PARAMS (0)
+  TRIGGER WHEN DISTANCE = 1 DELAY = ArcGetDelay(#PreDefinition, WDAT1) DO ArcMainNG(#PreDefinition, WDAT1, WP3) PRIO = -1
+  TRIGGER WHEN PATH = ArcGetPath(#OnTheFlyArcOn, WDAT1) DELAY = ArcGetDelay(#GasPreflow, WDAT1) DO ArcMainNG(#GasPreflow, WDAT1, WP3) PRIO = -1
+  TRIGGER WHEN PATH = ArcGetPath(#OnTheFlyArcOn, WDAT1) DELAY = 0 DO ArcMainNG(#ArcOnMoveStd, WDAT1, WP3) PRIO = -1 
+  ArcMainNG(#ArcOnBeforeMoveStd, WDAT1, WP3)
+  LIN XP3
+  ArcMainNG(#ArcOnAfterMoveStd, WDAT1, WP3)
+;ENDFOLD
+   $VEL.CP = 0.060
+   LIN  {X 7.466, Y 2.617, Z 12.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 9.400, Y 2.620, Z 12.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 9.400, Y 9.400, Z 12.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -9.400, Y 9.400, Z 12.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -9.400, Y -9.400, Z 12.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -3.102, Y -9.400, Z 12.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -3.103, Y -7.500, Z 12.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 2.173, Y -7.501, Z 12.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 2.171, Y -9.400, Z 12.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 9.400, Y -9.400, Z 12.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 9.400, Y -3.498, Z 12.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 7.468, Y -3.496, Z 12.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 7.468, Y -0.608, Z 12.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 9.400, Y -0.609, Z 12.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 9.400, Y -0.258, Z 12.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 7.467, Y -0.261, Z 12.100, A 0.000, B 0.000, C 0.000} C_DIS
+
+;FOLD ARCOFF WDAT2 LIN P4 CPDAT2 Tool[1]:cmttorch Base[1]:vrashatel ;%{PE}
+  ;FOLD Parameters ;%{h}
+    ;Params IlfProvider=kukaroboter.arctech.arcofflin; Kuka.IsGlobalPoint=False; Kuka.PointName=P4; Kuka.BlendingEnabled=False; Kuka.MoveDataName=CPDAT2; Kuka.VelocityPath=0.01; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; ArcTech.WdatVarName=WDAT2; ArcTech.Basic=3.4.3.1264
+  ;ENDFOLD
+  $BWDSTART = FALSE
+  LDAT_ACT = LCPDAT2
+  FDAT_ACT = FP4
+  BAS(#CP_PARAMS, gArcBasVelDefinition)
+  SET_CD_PARAMS (0)
+  TRIGGER WHEN PATH = ArcGetPath(#ArcOffBefore, WDAT2) DELAY = 0 DO ArcMainNG(#ArcOffBeforeOffStd, WDAT2, WP4) PRIO = -1
+  TRIGGER WHEN PATH = ArcGetPath(#OnTheFlyArcOff, WDAT2) DELAY = 0 DO ArcMainNG(#ArcOffMoveStd, WDAT2, WP4) PRIO = -1 
+  ArcMainNG(#ArcOffBeforeMoveStd, WDAT2, WP4)
+  LIN XP4
+  ArcMainNG(#ArcOffAfterMoveStd, WDAT2, WP4)
+;ENDFOLD
+   $VEL.CP = 0.080
+   LIN  {X 7.640, Y -3.324, Z 12.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.080
+   LIN  {X 9.039, Y -9.039, Z 12.100, A 0.000, B 0.000, C 0.000} C_DIS
+
+;FOLD ARCON WDAT1 LIN P3 Vel=0.5 m/s CPDAT1 Tool[1]:cmttorch Base[1]:vrashatel ;%{PE}
+  ;FOLD Parameters ;%{h}
+    ;Params IlfProvider=kukaroboter.arctech.arconlin; Kuka.IsGlobalPoint=False; Kuka.PointName=P3; Kuka.BlendingEnabled=False; Kuka.MoveDataName=CPDAT1; Kuka.VelocityPath=0.5; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; ArcTech.WdatVarName=WDAT1; ArcTech.Basic=3.4.3.1264
+  ;ENDFOLD
+  $BWDSTART = FALSE
+  LDAT_ACT = LCPDAT1
+  FDAT_ACT = FP3
+  BAS(#CP_PARAMS, 0.5)
+  SET_CD_PARAMS (0)
+  TRIGGER WHEN DISTANCE = 1 DELAY = ArcGetDelay(#PreDefinition, WDAT1) DO ArcMainNG(#PreDefinition, WDAT1, WP3) PRIO = -1
+  TRIGGER WHEN PATH = ArcGetPath(#OnTheFlyArcOn, WDAT1) DELAY = ArcGetDelay(#GasPreflow, WDAT1) DO ArcMainNG(#GasPreflow, WDAT1, WP3) PRIO = -1
+  TRIGGER WHEN PATH = ArcGetPath(#OnTheFlyArcOn, WDAT1) DELAY = 0 DO ArcMainNG(#ArcOnMoveStd, WDAT1, WP3) PRIO = -1 
+  ArcMainNG(#ArcOnBeforeMoveStd, WDAT1, WP3)
+  LIN XP3
+  ArcMainNG(#ArcOnAfterMoveStd, WDAT1, WP3)
+;ENDFOLD
+   $VEL.CP = 0.060
+   LIN  {X 9.039, Y -5.102, Z 12.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 5.103, Y -9.038, Z 12.100, A 0.000, B 0.000, C 0.000} C_DIS
+
+;FOLD ARCOFF WDAT2 LIN P4 CPDAT2 Tool[1]:cmttorch Base[1]:vrashatel ;%{PE}
+  ;FOLD Parameters ;%{h}
+    ;Params IlfProvider=kukaroboter.arctech.arcofflin; Kuka.IsGlobalPoint=False; Kuka.PointName=P4; Kuka.BlendingEnabled=False; Kuka.MoveDataName=CPDAT2; Kuka.VelocityPath=0.01; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; ArcTech.WdatVarName=WDAT2; ArcTech.Basic=3.4.3.1264
+  ;ENDFOLD
+  $BWDSTART = FALSE
+  LDAT_ACT = LCPDAT2
+  FDAT_ACT = FP4
+  BAS(#CP_PARAMS, gArcBasVelDefinition)
+  SET_CD_PARAMS (0)
+  TRIGGER WHEN PATH = ArcGetPath(#ArcOffBefore, WDAT2) DELAY = 0 DO ArcMainNG(#ArcOffBeforeOffStd, WDAT2, WP4) PRIO = -1
+  TRIGGER WHEN PATH = ArcGetPath(#OnTheFlyArcOff, WDAT2) DELAY = 0 DO ArcMainNG(#ArcOffMoveStd, WDAT2, WP4) PRIO = -1 
+  ArcMainNG(#ArcOffBeforeMoveStd, WDAT2, WP4)
+  LIN XP4
+  ArcMainNG(#ArcOffAfterMoveStd, WDAT2, WP4)
+;ENDFOLD
+   $VEL.CP = 0.060
+   LIN  {X 5.033, Y -9.108, Z 12.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.080
+   LIN  {X 9.040, Y -9.040, Z 12.100, A 0.000, B 0.000, C 0.000} C_DIS
+
+;FOLD ARCON WDAT1 LIN P3 Vel=0.5 m/s CPDAT1 Tool[1]:cmttorch Base[1]:vrashatel ;%{PE}
+  ;FOLD Parameters ;%{h}
+    ;Params IlfProvider=kukaroboter.arctech.arconlin; Kuka.IsGlobalPoint=False; Kuka.PointName=P3; Kuka.BlendingEnabled=False; Kuka.MoveDataName=CPDAT1; Kuka.VelocityPath=0.5; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; ArcTech.WdatVarName=WDAT1; ArcTech.Basic=3.4.3.1264
+  ;ENDFOLD
+  $BWDSTART = FALSE
+  LDAT_ACT = LCPDAT1
+  FDAT_ACT = FP3
+  BAS(#CP_PARAMS, 0.5)
+  SET_CD_PARAMS (0)
+  TRIGGER WHEN DISTANCE = 1 DELAY = ArcGetDelay(#PreDefinition, WDAT1) DO ArcMainNG(#PreDefinition, WDAT1, WP3) PRIO = -1
+  TRIGGER WHEN PATH = ArcGetPath(#OnTheFlyArcOn, WDAT1) DELAY = ArcGetDelay(#GasPreflow, WDAT1) DO ArcMainNG(#GasPreflow, WDAT1, WP3) PRIO = -1
+  TRIGGER WHEN PATH = ArcGetPath(#OnTheFlyArcOn, WDAT1) DELAY = 0 DO ArcMainNG(#ArcOnMoveStd, WDAT1, WP3) PRIO = -1 
+  ArcMainNG(#ArcOnBeforeMoveStd, WDAT1, WP3)
+  LIN XP3
+  ArcMainNG(#ArcOnAfterMoveStd, WDAT1, WP3)
+;ENDFOLD
+   $VEL.CP = 0.060
+   LIN  {X 2.531, Y -9.040, Z 12.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 2.533, Y -7.141, Z 12.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 0.069, Y -7.140, Z 12.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -9.039, Y 1.968, Z 12.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -9.039, Y -1.968, Z 12.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 1.968, Y 9.039, Z 12.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 5.102, Y 9.039, Z 12.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 9.038, Y 5.103, Z 12.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 9.040, Y 9.040, Z 12.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 9.039, Y 9.039, Z 12.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -9.039, Y -9.039, Z 12.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -9.039, Y -5.102, Z 12.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -5.102, Y -9.039, Z 12.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -3.462, Y -9.040, Z 12.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -3.463, Y -7.140, Z 12.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -0.068, Y -7.139, Z 12.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 7.106, Y 0.035, Z 12.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 7.105, Y -0.034, Z 12.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -1.968, Y 9.039, Z 12.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -5.102, Y 9.039, Z 12.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -9.039, Y 5.102, Z 12.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -9.040, Y 9.040, Z 12.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -9.039, Y 9.039, Z 12.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 9.039, Y -9.039, Z 12.100, A 0.000, B 0.000, C 0.000} C_DIS
+
+;FOLD ARCOFF WDAT2 LIN P4 CPDAT2 Tool[1]:cmttorch Base[1]:vrashatel ;%{PE}
+  ;FOLD Parameters ;%{h}
+    ;Params IlfProvider=kukaroboter.arctech.arcofflin; Kuka.IsGlobalPoint=False; Kuka.PointName=P4; Kuka.BlendingEnabled=False; Kuka.MoveDataName=CPDAT2; Kuka.VelocityPath=0.01; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; ArcTech.WdatVarName=WDAT2; ArcTech.Basic=3.4.3.1264
+  ;ENDFOLD
+  $BWDSTART = FALSE
+  LDAT_ACT = LCPDAT2
+  FDAT_ACT = FP4
+  BAS(#CP_PARAMS, gArcBasVelDefinition)
+  SET_CD_PARAMS (0)
+  TRIGGER WHEN PATH = ArcGetPath(#ArcOffBefore, WDAT2) DELAY = 0 DO ArcMainNG(#ArcOffBeforeOffStd, WDAT2, WP4) PRIO = -1
+  TRIGGER WHEN PATH = ArcGetPath(#OnTheFlyArcOff, WDAT2) DELAY = 0 DO ArcMainNG(#ArcOffMoveStd, WDAT2, WP4) PRIO = -1 
+  ArcMainNG(#ArcOffBeforeMoveStd, WDAT2, WP4)
+  LIN XP4
+  ArcMainNG(#ArcOffAfterMoveStd, WDAT2, WP4)
+;ENDFOLD
+   $VEL.CP = 0.060
+   LIN  {X 9.109, Y -9.109, Z 12.100, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.010
+   LIN  {X 9.109, Y -9.109, Z 12.300, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.080
+   LIN  {X 7.640, Y -3.324, Z 12.300, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.080
+   LIN  {X 7.567, Y 0.250, Z 12.300, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.080
+   LIN  {X 7.867, Y 0.251, Z 12.300, A 0.000, B 0.000, C 0.000} C_DIS
+
+;FOLD ARCON WDAT1 LIN P3 Vel=0.5 m/s CPDAT1 Tool[1]:cmttorch Base[1]:vrashatel ;%{PE}
+  ;FOLD Parameters ;%{h}
+    ;Params IlfProvider=kukaroboter.arctech.arconlin; Kuka.IsGlobalPoint=False; Kuka.PointName=P3; Kuka.BlendingEnabled=False; Kuka.MoveDataName=CPDAT1; Kuka.VelocityPath=0.5; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; ArcTech.WdatVarName=WDAT1; ArcTech.Basic=3.4.3.1264
+  ;ENDFOLD
+  $BWDSTART = FALSE
+  LDAT_ACT = LCPDAT1
+  FDAT_ACT = FP3
+  BAS(#CP_PARAMS, 0.5)
+  SET_CD_PARAMS (0)
+  TRIGGER WHEN DISTANCE = 1 DELAY = ArcGetDelay(#PreDefinition, WDAT1) DO ArcMainNG(#PreDefinition, WDAT1, WP3) PRIO = -1
+  TRIGGER WHEN PATH = ArcGetPath(#OnTheFlyArcOn, WDAT1) DELAY = ArcGetDelay(#GasPreflow, WDAT1) DO ArcMainNG(#GasPreflow, WDAT1, WP3) PRIO = -1
+  TRIGGER WHEN PATH = ArcGetPath(#OnTheFlyArcOn, WDAT1) DELAY = 0 DO ArcMainNG(#ArcOnMoveStd, WDAT1, WP3) PRIO = -1 
+  ArcMainNG(#ArcOnBeforeMoveStd, WDAT1, WP3)
+  LIN XP3
+  ArcMainNG(#ArcOnAfterMoveStd, WDAT1, WP3)
+;ENDFOLD
+   $VEL.CP = 0.025
+   LIN  {X 7.867, Y 0.251, Z 12.300, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 7.866, Y 2.331, Z 12.300, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 9.800, Y 2.335, Z 12.300, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 9.800, Y 9.800, Z 12.300, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -9.800, Y 9.800, Z 12.300, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -9.800, Y -9.800, Z 12.300, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -2.814, Y -9.800, Z 12.300, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -2.815, Y -7.900, Z 12.300, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -0.755, Y -7.900, Z 12.300, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -0.753, Y -9.800, Z 12.300, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -0.120, Y -9.800, Z 12.300, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -0.118, Y -7.900, Z 12.300, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 1.901, Y -7.901, Z 12.300, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 1.899, Y -9.800, Z 12.300, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 9.800, Y -9.800, Z 12.300, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 9.800, Y -3.218, Z 12.300, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 7.868, Y -3.216, Z 12.300, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 7.869, Y -1.125, Z 12.300, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 9.800, Y -1.126, Z 12.300, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 9.800, Y 0.254, Z 12.300, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 7.867, Y 0.251, Z 12.300, A 0.000, B 0.000, C 0.000} C_DIS
+
+;FOLD ARCOFF WDAT2 LIN P4 CPDAT2 Tool[1]:cmttorch Base[1]:vrashatel ;%{PE}
+  ;FOLD Parameters ;%{h}
+    ;Params IlfProvider=kukaroboter.arctech.arcofflin; Kuka.IsGlobalPoint=False; Kuka.PointName=P4; Kuka.BlendingEnabled=False; Kuka.MoveDataName=CPDAT2; Kuka.VelocityPath=0.01; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; ArcTech.WdatVarName=WDAT2; ArcTech.Basic=3.4.3.1264
+  ;ENDFOLD
+  $BWDSTART = FALSE
+  LDAT_ACT = LCPDAT2
+  FDAT_ACT = FP4
+  BAS(#CP_PARAMS, gArcBasVelDefinition)
+  SET_CD_PARAMS (0)
+  TRIGGER WHEN PATH = ArcGetPath(#ArcOffBefore, WDAT2) DELAY = 0 DO ArcMainNG(#ArcOffBeforeOffStd, WDAT2, WP4) PRIO = -1
+  TRIGGER WHEN PATH = ArcGetPath(#OnTheFlyArcOff, WDAT2) DELAY = 0 DO ArcMainNG(#ArcOffMoveStd, WDAT2, WP4) PRIO = -1 
+  ArcMainNG(#ArcOffBeforeMoveStd, WDAT2, WP4)
+  LIN XP4
+  ArcMainNG(#ArcOffAfterMoveStd, WDAT2, WP4)
+;ENDFOLD
+   $VEL.CP = 0.080
+   LIN  {X 7.867, Y 0.451, Z 12.300, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.080
+   LIN  {X 7.427, Y 0.451, Z 12.300, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.080
+   LIN  {X 7.467, Y -0.150, Z 12.300, A 0.000, B 0.000, C 0.000} C_DIS
+
+;FOLD ARCON WDAT1 LIN P3 Vel=0.5 m/s CPDAT1 Tool[1]:cmttorch Base[1]:vrashatel ;%{PE}
+  ;FOLD Parameters ;%{h}
+    ;Params IlfProvider=kukaroboter.arctech.arconlin; Kuka.IsGlobalPoint=False; Kuka.PointName=P3; Kuka.BlendingEnabled=False; Kuka.MoveDataName=CPDAT1; Kuka.VelocityPath=0.5; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; ArcTech.WdatVarName=WDAT1; ArcTech.Basic=3.4.3.1264
+  ;ENDFOLD
+  $BWDSTART = FALSE
+  LDAT_ACT = LCPDAT1
+  FDAT_ACT = FP3
+  BAS(#CP_PARAMS, 0.5)
+  SET_CD_PARAMS (0)
+  TRIGGER WHEN DISTANCE = 1 DELAY = ArcGetDelay(#PreDefinition, WDAT1) DO ArcMainNG(#PreDefinition, WDAT1, WP3) PRIO = -1
+  TRIGGER WHEN PATH = ArcGetPath(#OnTheFlyArcOn, WDAT1) DELAY = ArcGetDelay(#GasPreflow, WDAT1) DO ArcMainNG(#GasPreflow, WDAT1, WP3) PRIO = -1
+  TRIGGER WHEN PATH = ArcGetPath(#OnTheFlyArcOn, WDAT1) DELAY = 0 DO ArcMainNG(#ArcOnMoveStd, WDAT1, WP3) PRIO = -1 
+  ArcMainNG(#ArcOnBeforeMoveStd, WDAT1, WP3)
+  LIN XP3
+  ArcMainNG(#ArcOnAfterMoveStd, WDAT1, WP3)
+;ENDFOLD
+   $VEL.CP = 0.060
+   LIN  {X 7.466, Y 2.730, Z 12.300, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 9.400, Y 2.734, Z 12.300, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 9.400, Y 9.400, Z 12.300, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -9.400, Y 9.400, Z 12.300, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -9.400, Y -9.400, Z 12.300, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -3.214, Y -9.400, Z 12.300, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -3.215, Y -7.500, Z 12.300, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 2.301, Y -7.501, Z 12.300, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 2.299, Y -9.400, Z 12.300, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 9.400, Y -9.400, Z 12.300, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 9.400, Y -3.618, Z 12.300, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 7.468, Y -3.616, Z 12.300, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 7.469, Y -0.725, Z 12.300, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 9.400, Y -0.726, Z 12.300, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 9.400, Y -0.147, Z 12.300, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 7.467, Y -0.150, Z 12.300, A 0.000, B 0.000, C 0.000} C_DIS
+
+;FOLD ARCOFF WDAT2 LIN P4 CPDAT2 Tool[1]:cmttorch Base[1]:vrashatel ;%{PE}
+  ;FOLD Parameters ;%{h}
+    ;Params IlfProvider=kukaroboter.arctech.arcofflin; Kuka.IsGlobalPoint=False; Kuka.PointName=P4; Kuka.BlendingEnabled=False; Kuka.MoveDataName=CPDAT2; Kuka.VelocityPath=0.01; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; ArcTech.WdatVarName=WDAT2; ArcTech.Basic=3.4.3.1264
+  ;ENDFOLD
+  $BWDSTART = FALSE
+  LDAT_ACT = LCPDAT2
+  FDAT_ACT = FP4
+  BAS(#CP_PARAMS, gArcBasVelDefinition)
+  SET_CD_PARAMS (0)
+  TRIGGER WHEN PATH = ArcGetPath(#ArcOffBefore, WDAT2) DELAY = 0 DO ArcMainNG(#ArcOffBeforeOffStd, WDAT2, WP4) PRIO = -1
+  TRIGGER WHEN PATH = ArcGetPath(#OnTheFlyArcOff, WDAT2) DELAY = 0 DO ArcMainNG(#ArcOffMoveStd, WDAT2, WP4) PRIO = -1 
+  ArcMainNG(#ArcOffBeforeMoveStd, WDAT2, WP4)
+  LIN XP4
+  ArcMainNG(#ArcOffAfterMoveStd, WDAT2, WP4)
+;ENDFOLD
+   $VEL.CP = 0.080
+   LIN  {X 7.640, Y -3.444, Z 12.300, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.080
+   LIN  {X 9.039, Y -9.039, Z 12.300, A 0.000, B 0.000, C 0.000} C_DIS
+
+;FOLD ARCON WDAT1 LIN P3 Vel=0.5 m/s CPDAT1 Tool[1]:cmttorch Base[1]:vrashatel ;%{PE}
+  ;FOLD Parameters ;%{h}
+    ;Params IlfProvider=kukaroboter.arctech.arconlin; Kuka.IsGlobalPoint=False; Kuka.PointName=P3; Kuka.BlendingEnabled=False; Kuka.MoveDataName=CPDAT1; Kuka.VelocityPath=0.5; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; ArcTech.WdatVarName=WDAT1; ArcTech.Basic=3.4.3.1264
+  ;ENDFOLD
+  $BWDSTART = FALSE
+  LDAT_ACT = LCPDAT1
+  FDAT_ACT = FP3
+  BAS(#CP_PARAMS, 0.5)
+  SET_CD_PARAMS (0)
+  TRIGGER WHEN DISTANCE = 1 DELAY = ArcGetDelay(#PreDefinition, WDAT1) DO ArcMainNG(#PreDefinition, WDAT1, WP3) PRIO = -1
+  TRIGGER WHEN PATH = ArcGetPath(#OnTheFlyArcOn, WDAT1) DELAY = ArcGetDelay(#GasPreflow, WDAT1) DO ArcMainNG(#GasPreflow, WDAT1, WP3) PRIO = -1
+  TRIGGER WHEN PATH = ArcGetPath(#OnTheFlyArcOn, WDAT1) DELAY = 0 DO ArcMainNG(#ArcOnMoveStd, WDAT1, WP3) PRIO = -1 
+  ArcMainNG(#ArcOnBeforeMoveStd, WDAT1, WP3)
+  LIN XP3
+  ArcMainNG(#ArcOnAfterMoveStd, WDAT1, WP3)
+;ENDFOLD
+   $VEL.CP = 0.060
+   LIN  {X 9.039, Y -5.102, Z 12.300, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 5.102, Y -9.039, Z 12.300, A 0.000, B 0.000, C 0.000} C_DIS
+
+;FOLD ARCOFF WDAT2 LIN P4 CPDAT2 Tool[1]:cmttorch Base[1]:vrashatel ;%{PE}
+  ;FOLD Parameters ;%{h}
+    ;Params IlfProvider=kukaroboter.arctech.arcofflin; Kuka.IsGlobalPoint=False; Kuka.PointName=P4; Kuka.BlendingEnabled=False; Kuka.MoveDataName=CPDAT2; Kuka.VelocityPath=0.01; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; ArcTech.WdatVarName=WDAT2; ArcTech.Basic=3.4.3.1264
+  ;ENDFOLD
+  $BWDSTART = FALSE
+  LDAT_ACT = LCPDAT2
+  FDAT_ACT = FP4
+  BAS(#CP_PARAMS, gArcBasVelDefinition)
+  SET_CD_PARAMS (0)
+  TRIGGER WHEN PATH = ArcGetPath(#ArcOffBefore, WDAT2) DELAY = 0 DO ArcMainNG(#ArcOffBeforeOffStd, WDAT2, WP4) PRIO = -1
+  TRIGGER WHEN PATH = ArcGetPath(#OnTheFlyArcOff, WDAT2) DELAY = 0 DO ArcMainNG(#ArcOffMoveStd, WDAT2, WP4) PRIO = -1 
+  ArcMainNG(#ArcOffBeforeMoveStd, WDAT2, WP4)
+  LIN XP4
+  ArcMainNG(#ArcOffAfterMoveStd, WDAT2, WP4)
+;ENDFOLD
+   $VEL.CP = 0.060
+   LIN  {X 5.032, Y -9.109, Z 12.300, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.080
+   LIN  {X 9.040, Y -9.040, Z 12.300, A 0.000, B 0.000, C 0.000} C_DIS
+
+;FOLD ARCON WDAT1 LIN P3 Vel=0.5 m/s CPDAT1 Tool[1]:cmttorch Base[1]:vrashatel ;%{PE}
+  ;FOLD Parameters ;%{h}
+    ;Params IlfProvider=kukaroboter.arctech.arconlin; Kuka.IsGlobalPoint=False; Kuka.PointName=P3; Kuka.BlendingEnabled=False; Kuka.MoveDataName=CPDAT1; Kuka.VelocityPath=0.5; Kuka.CurrentCDSetIndex=0; Kuka.MovementParameterFieldEnabled=True; ArcTech.WdatVarName=WDAT1; ArcTech.Basic=3.4.3.1264
+  ;ENDFOLD
+  $BWDSTART = FALSE
+  LDAT_ACT = LCPDAT1
+  FDAT_ACT = FP3
+  BAS(#CP_PARAMS, 0.5)
+  SET_CD_PARAMS (0)
+  TRIGGER WHEN DISTANCE = 1 DELAY = ArcGetDelay(#PreDefinition, WDAT1) DO ArcMainNG(#PreDefinition, WDAT1, WP3) PRIO = -1
+  TRIGGER WHEN PATH = ArcGetPath(#OnTheFlyArcOn, WDAT1) DELAY = ArcGetDelay(#GasPreflow, WDAT1) DO ArcMainNG(#GasPreflow, WDAT1, WP3) PRIO = -1
+  TRIGGER WHEN PATH = ArcGetPath(#OnTheFlyArcOn, WDAT1) DELAY = 0 DO ArcMainNG(#ArcOnMoveStd, WDAT1, WP3) PRIO = -1 
+  ArcMainNG(#ArcOnBeforeMoveStd, WDAT1, WP3)
+  LIN XP3
+  ArcMainNG(#ArcOnAfterMoveStd, WDAT1, WP3)
+;ENDFOLD
+   $VEL.CP = 0.060
+   LIN  {X 2.659, Y -9.040, Z 12.300, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 2.661, Y -7.141, Z 12.300, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X 0.069, Y -7.140, Z 12.300, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -9.039, Y 1.968, Z 12.300, A 0.000, B 0.000, C 0.000} C_DIS
+   $VEL.CP = 0.060
+   LIN  {X -9.039, Y -1.968, Z 12.300, A 0.000, B 0.000, C 0.000} C_DIS
+
+
+END

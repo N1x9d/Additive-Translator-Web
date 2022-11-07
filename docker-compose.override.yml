@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  additivetranslator:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "5055:80"

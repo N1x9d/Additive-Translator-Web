@@ -1,0 +1,60 @@
+&ACCESS RVP
+&REL 65
+&PARAM DISKPATH = KRC:\R1\Program
+DEF Addstart ( )   
+   ;FOLD INI;%{PE}
+     ;FOLD BASISTECH INI
+       GLOBAL INTERRUPT DECL 3 WHEN $STOPMESS==TRUE DO IR_STOPM ( )
+       INTERRUPT ON 3 
+       BAS (#INITMOV,0 )
+     ;ENDFOLD (BASISTECH INI)
+     ;FOLD USER INI
+       ;Make your modifications here
+     ;ENDFOLD (USER INI)
+   ;ENDFOLD (INI)
+
+   BAS (#VEL_PTP, 0020.0000)
+   BAS (#ACC_PTP, 0020.0000)
+   
+   ;-----SET LIN AND ARC MOTION VARIABLES-----
+   $VEL.ORI1 = 0350.0000
+   $VEL.ORI2 = 0350.0000
+   
+   $ACC.CP = 0005.0000
+   $ACC.ORI1 = 1000.0000
+   $ACC.ORI2 = 1000.0000
+   
+   ;-----APPROXIMATION-----
+   $APO.CVEL = 0100
+   $APO.CPTP = 0100
+   $APO.CDIS = 0006.0000
+   $APO.CORI = 0090.0000
+
+   BAS (#BASE, 1) ;Positioner
+   BAS (#TOOL, 1) ;Vrashatel
+
+   BAS(#VEL_PTP,15)                         ;;Set PTP Axis Velocity
+   BAS(#ACC_PTP,50)                         ;;Set PTP Axis Acceleration
+   PTP{A1 -92,A2 -133,A3 132,A4 7,A5 50,A6 -10}
+   ap_0 ( )
+   ap_1 ( )
+   ap_2 ( )
+   ap_3 ( )
+   ap_4 ( )
+   ap_5 ( )
+   ap_6 ( )
+   ap_7 ( )
+   ap_8 ( )
+   ap_9 ( )
+   ap_10 ( )
+   ap_11 ( )
+   ap_12 ( )
+   ap_13 ( )
+   ap_14 ( )
+   ap_15 ( )
+   ap_16 ( )
+   ap_17 ( )
+   ap_18 ( )
+
+
+END

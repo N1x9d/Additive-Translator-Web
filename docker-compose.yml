@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  additivetranslator:
+    image: ${DOCKER_REGISTRY-}additivetranslator
+    build:
+      context: .
+      dockerfile: Additive Translator/Dockerfile
