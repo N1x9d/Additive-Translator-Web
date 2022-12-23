@@ -1,0 +1,49 @@
+<form onsubmit={{action "saveUser"}}>
+  <div class="field">
+    <label>Email:</label>
+    {{input type="text" placeholder="Email" value=email}}
+
+    {{#each errors.email as |error|}}
+      <span class="error-message">{{error.message}}</span>
+    {{/each}}
+  </div>
+
+  <div class="field">
+    <label>Username:</label>
+    {{input type="text" placeholder="Username" value=username}}
+
+    {{#each errors.username as |error|}}
+      <span class="error-message">{{error.message}}</span>
+    {{/each}}
+  </div>
+
+  <div class="field">
+    <label>Password:</label>
+    {{input type="password" placeholder="Password" value=password}}
+
+    {{#each errors.password as |error|}}
+      <span class="error-message">{{error.message}}</span>
+    {{/each}}
+  </div>
+
+  <div class="field">
+    <label>Confirm Password:</label>
+    {{input type="password" placeholder="Confirm Password" value=passwordConfirmation}}
+
+    {{#each errors.passwordConfirmation as |error|}}
+      <span class="error-message">{{error.message}}</span>
+    {{/each}}
+  </div>
+
+  <div class="field">
+    {{g-recaptcha-v2
+      verified=(action "verified")
+      expired=(action "expired")
+      reset=reset
+    }}
+  </div>
+
+  <div class="form-footer">
+    <button type="submit" class="btn-submit" disabled={{iAmRobot}}>save</button>
+  </div>
+</form>

@@ -1,0 +1,149 @@
+{
+  "authors": [
+    {
+      "id": 1,
+      "firstName": "Robert",
+      "lastName": "Martin"
+    },
+    {
+      "id": 2,
+      "firstName": "C.S.",
+      "lastName": "Lewis"
+    },
+    {
+      "id": 3,
+      "firstName": "Edgar",
+      "lastName": "Poe"
+    },
+    {
+      "firstName": "Erry",
+      "lastName": "Books",
+      "id": 6
+    },
+    {
+      "firstName": "Colley",
+      "lastName": "Printley",
+      "id": 7
+    },
+    {
+      "firstName": "Rolling",
+      "lastName": "Bowley",
+      "id": 8
+    },
+    {
+      "firstName": "New",
+      "lastName": "Author",
+      "id": 9
+    }
+  ],
+  "books": [
+    {
+      "id": 1,
+      "title": "The Clean Coder",
+      "isbn": "0137081073",
+      "publishDate": "2011-05-13T14:48:00.000Z",
+      "authorId": 1,
+      "userId": 1
+    },
+    {
+      "id": 2,
+      "title": "Agile Principles, Patterns, and Practices in C#",
+      "isbn": "0131857258",
+      "publishDate": "2006-07-20T11:32:00.000Z",
+      "authorId": 1,
+      "userId": 2
+    },
+    {
+      "id": 3,
+      "title": "The Chronicles of Narnia",
+      "isbn": "9780007117307",
+      "publishDate": "2008-10-29T10:22:00.000Z",
+      "authorId": 2,
+      "userId": 2
+    },
+    {
+      "title": "25 moments of something",
+      "isbn": "84848",
+      "publishDate": "2020-11-02T19:00:00.000Z",
+      "authorId": 1,
+      "id": 5,
+      "userId": 2
+    },
+    {
+      "title": "Awsome Book for Programmers",
+      "isbn": "34938475943",
+      "publishDate": "2020-10-31T19:00:00.000Z",
+      "authorId": 1,
+      "id": 6,
+      "userId": 2
+    },
+    {
+      "title": "12345",
+      "isbn": "12345",
+      "publishDate": "2021-01-27T19:00:00.000Z",
+      "authorId": 2,
+      "userId": 2,
+      "id": 7
+    }
+  ],
+  "reviews": [
+    {
+      "id": 1,
+      "user": "Evgeniy Khaberev",
+      "body": "This is a good book!",
+      "publishDate": "2020-11-13T19:00:00.000Z",
+      "bookId": 3
+    },
+    {
+      "id": 2,
+      "user": "Markus Friendly",
+      "body": "I like this!",
+      "publishDate": "2020-11-11T19:00:00.000Z",
+      "bookId": 1
+    },
+    {
+      "id": 3,
+      "user": "Sam Ridley",
+      "body": "As for me this is for beginners...",
+      "publishDate": "2020-10-11T19:00:00.000Z",
+      "bookId": 1
+    },
+    {
+      "user": "Joht Smith",
+      "body": "Great job!",
+      "createdAt": "2020-11-18T19:00:00.000Z",
+      "bookId": 1,
+      "id": 4
+    },
+    {
+      "user": "12",
+      "body": "wdf",
+      "createdAt": "2020-12-29T19:00:00.000Z",
+      "bookId": 1,
+      "id": 5
+    },
+    {
+      "user": "admin",
+      "body": "Super!",
+      "createdAt": "2021-01-28T19:00:00.000Z",
+      "bookId": 1,
+      "id": 6
+    }
+  ],
+  "users": [
+    {
+      "email": "a@a.ru",
+      "username": "a",
+      "password": "3c1efb017ea632c6ff5fab2bf62cdcd8c5cf667bdcdc5b25b4c44e16770f1064",
+      "passwordConfirmation": "3c1efb017ea632c6ff5fab2bf62cdcd8c5cf667bdcdc5b25b4c44e16770f1064",
+      "id": 1
+    },
+    {
+      "email": "admin@admin.ru",
+      "username": "admin",
+      "password": "aed439235437c68773dcb392849729f25edc0dd67119722c2a172e3fa5350711",
+      "passwordConfirmation": "aed439235437c68773dcb392849729f25edc0dd67119722c2a172e3fa5350711",
+      "id": 2
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+<form onsubmit={{action "submitForm"}}>
+  <div class="form-group">
+    <label for="exampleFormControlFile1">Gcode файл</label>
+    {{input type="file" class="form-control-file" placeholder="Last Name" value=lastName}}
+    {{!-- <input type="file" class="form-control-file" id="exampleFormControlFile1"> --}}
+  </div>
+
+  <div class="field">
+    <label>Last Name:</label>
+    {{input type="text" placeholder="Last Name" value=lastName}}
+  </div>
+
+  <div class="form-footer">
+    <button type="submit" class="btn-submit">save</button>
+  </div>
+</form>

@@ -1,0 +1,22 @@
+<div class="panel-heading">
+  <div class="search">
+    {{input type="text" placeholder="Search by Author Name" value=search}}
+  </div>
+
+  {{#link-to "author.create" class="btn-new"}}
+    <div class="sr-only">Add new Author</div>
+  {{/link-to}}
+</div>
+
+<div class="panel-content">
+  <h3 class="panel-title">Authors</h3>
+
+  {{gcode-form}}
+  <ul class="collection">
+    {{!-- {{#each model as |author|}}
+      {{author-item firstName=author.firstName lastName=author.lastName idAuthor=author.id tagName='li'}}
+    {{/each}} --}}
+  </ul>
+</div>
+
+{{outlet}}

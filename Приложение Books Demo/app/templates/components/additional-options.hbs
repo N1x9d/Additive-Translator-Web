@@ -1,0 +1,64 @@
+<div class="container">
+        <div class="row">
+                <div class="form-check">
+                    {{input class="form-check-input" type="checkbox" checked=model.Arc_disable}}
+                    <label class="form-check-label" for="exampleRadios1">
+                    Отключить дугу
+                    </label>
+                </div>
+            
+        </div>
+<div class="row">    
+<div class="form-check">
+  {{input class="form-check-input" type="checkbox" checked=model.Auto_arc}}
+  <label class="form-check-label" for="exampleRadios2">
+    Авто включение дуги
+  </label>
+</div>  
+</div>  
+<div class="row">    
+<div class="form-check">
+ {{input class="form-check-input" type="checkbox" checked=model.WELD_SPEED}}
+  <label class="form-check-label" for="exampleRadios2">
+    Использовать значение WELD_SPEED для скорости подачи
+  </label>
+  
+    </div>
+            
+</div>
+<div class="row"> 
+      <div class="col-sm">
+            <div class="form-check">
+                {{input class="form-check-input" type="checkbox" checked=WSEnable}}
+                <label class="form-check-label" for="exampleRadios1">
+                Weld shield
+                </label>
+                 
+            </div>
+            {{input class="form-control" type="text" enable = WSEnable value = model.WS}}
+            </div>
+</div>    
+<div class="row"> 
+    <div class="col-sm">
+            <div class="form-check">
+                {{input class="form-check-input" type="checkbox" checked=WEEnable}}
+                <label class="form-check-label" for="exampleRadios1">
+                Wave enable
+                </label>
+                 
+            </div>
+            {{input class="form-control" type="text" enable=WEEnable  value=model.WaveE}}
+            </div>   
+</div>    
+<div class="row"> 
+    <div class="col-sm">
+           <div class="form-check">
+                {{input class="form-check-input" type="checkbox" checked=model.RO}}
+                <label class="form-check-label" for="exampleRadios1">
+                RO
+                </label>
+                 
+            </div>
+            </div>   
+</div>   
+</div>

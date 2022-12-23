@@ -1,0 +1,81 @@
+ <div class="form-group">
+    <label for="ms">Параметры перемещения</label>
+    <div class="container" id = "mc">
+  <div class="row">
+    <div class="col-sm">
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="">Нормальное движение</span>
+            </div>
+            {{input class="form-control" type="text" placeholder="Нормальное движение" value = nm}}
+        </div>
+    </div>
+    </div>
+    <div class="row">
+    <div class="col-sm">
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="">Движение с дугой</span>
+            </div>
+            {{input class="form-control" type="text" placeholder="Движение с дугой" value = wm}}
+        </div>
+    </div>
+    </div>
+    <div class="row">
+    <div class="col-sm">
+        <label class="form-check-label">
+            Wrist:
+            </label>
+            
+            <select class="form-select" name="Wrist" onchange={{action "updateValue" value="target.value"}}>
+                <option value="Flip">Flip</option>
+                <option value="No-flip">No-flip</option>
+            </select>
+    </div>
+    <div class="col-sm">
+        <label class="form-check-label">
+            Arm:
+            </label>
+             <select class="form-select" name="Arm" onchange={{action "updateValue" value="target.value"}}>
+                <option value="Down">Down</option>
+                <option value="Up">Up</option>
+            </select>        
+    </div>
+    <div class="col-sm">
+        <label class="form-check-label">
+            Base:
+            </label>
+            <select class="form-select" name="Base" onchange={{action "updateValue" value="target.value"}}>
+                <option value="Front">Front</option>
+                <option value="Back">Back</option>
+            </select>        
+    </div>
+    </div>
+    <div class="row">
+    <div class="col-sm">
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="">Turns J1:</span>
+            </div>
+            {{input class="form-control" type="text" value = j1}}
+        </div>
+    </div>
+    <div class="col-sm">
+             <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="">Turns J4:</span>
+            </div>
+            {{input class="form-control" type="text" value = j4}}
+        </div>
+    </div>
+    <div class="col-sm">
+            <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="">Turns J6:</span>
+            </div>
+            {{input class="form-control" type="text" value = j6}}
+        </div> 
+    </div>
+    </div>
+    </div>
+ </div>

@@ -1,0 +1,31 @@
+import DS from 'ember-data';
+
+export default DS.Model.extend({
+input: DS.attr('string'),
+x: DS.attr('string'),
+y: DS.attr('string'),
+z: DS.attr('string'),
+w: DS.attr('string'),
+p: DS.attr('string'),
+r: DS.attr('string'),
+DUF: DS.attr('string'),
+DUT: DS.attr('string'),
+RUF: DS.attr('string'),
+RUT: DS.attr('string'),
+nm: DS.attr('string'),
+wm: DS.attr('string'),
+j1: DS.attr('string'),
+j4: DS.attr('string'),
+j6: DS.attr('string'),
+Arc_disable: DS.attr('boolean'),
+Auto_arc: DS.attr('boolean'),
+WELD_SPEED: DS.attr('boolean'),
+WSE: DS.attr('boolean'),
+WS: DS.attr('string'),
+WEE: DS.attr('boolean'),
+WE: DS.attr('string'),
+RO: DS.attr('boolean'),
+Wrist: DS.attr('string'),
+Base: DS.attr('string'),
+Arm: DS.attr('string')
+});

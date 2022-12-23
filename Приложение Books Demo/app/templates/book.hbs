@@ -1,0 +1,47 @@
+<div class="panel-heading">
+  <div class="search">
+    {{input type="text" placeholder="Search by Title or ISBN" value=search}}
+  </div>
+
+  {{#link-to "book.create" class="btn-new"}}
+    <div class="sr-only">Add new Book</div>
+  {{/link-to}}
+</div>
+
+<div class="panel-content">
+  <h3 class="panel-title">Books</h3>
+
+  {{#power-select
+    options=model.authors
+    selected=selectedAuthor
+    onchange=(action "changeAuthor")
+    searchField="fullName"
+    allowClear=true
+    as |author|
+  }}
+    {{author.fullName}}
+  {{/power-select}}
+
+  {{#if isLoading}}
+    <div class="welcome-page">
+      <img src="/loading.gif" alt="Error">
+    </div>
+  {{else}}
+    <ul class="collection">
+      {{#each model.books as |book|}}
+        {{book-item title=book.title isbn=book.isbn bookId=book.id tagName='li' }}
+      {{/each}}
+    </ul>
+  {{/if}}
+
+  <h4>Pages</h4>
+  <ul class="collection">
+    {{#each pages as |page|}}
+      <li>
+        {{link-to page "book" (query-params page=page)}}
+      </li>
+    {{/each}}
+  </ul>
+</div>
+
+{{outlet class="slide-container"}}

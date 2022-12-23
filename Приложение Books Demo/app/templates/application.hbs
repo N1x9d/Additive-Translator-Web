@@ -1,0 +1,30 @@
+<div class="app">
+  <nav class="main-nav">
+    <h1 class="logo">
+      {{#link-to "index"}}
+        <img src="/logo.svg" alt="Ember Library">
+        <span class="sr-only">Ember Library</span>
+      {{/link-to}}
+    </h1>
+
+    <ul>
+      <li>{{#link-to "gcode"}}Fanuk{{/link-to}}</li>
+      <li>{{#link-to "gcode"}}Kuka{{/link-to}}</li>
+      
+        {{!-- <li>{{#link-to "register"}}Register{{/link-to}}</li> --}}
+        {{!-- <li>{{#link-to "login"}}Login{{/link-to}}</li> --}}
+      {{!-- {{/if}} --}}
+    </ul>
+
+    {{!-- {{#if session.isAuthenticated}}
+      <div class="current-user">
+        Hello, <strong>{{currentUser.user.username}}</strong>
+        {{!-- Hello, <strong>{{this.session.data.authenticated.tokenData.username}}</strong> --}}
+      {{!-- </div> --}}
+    {{!-- {{/if}} --}}
+  </nav>
+
+  <main class="app-content">
+    {{outlet}}
+    </main>
+</div>
