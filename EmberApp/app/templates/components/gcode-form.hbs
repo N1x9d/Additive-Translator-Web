@@ -1,0 +1,283 @@
+
+<form  onsubmit= {{action "submitForm"}}>   
+    <div class="container">
+        
+        <div class="row">
+            <div class="col-4">
+                <div class="form-group">
+     <label for="exampleFormControlFile">Отступ координат</label>
+     <div class="container">
+  <div class="row">
+    <div class="col-sm">
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="">X</span>
+            </div>
+            {{input class="form-control" type="text" placeholder="X" value=x}}
+        </div>
+    </div>
+    <div class="col-sm">
+      <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="">Y</span>
+            </div>
+            {{input class="form-control" type="text" placeholder="Y" value=y}}
+        </div>
+    </div>
+    <div class="col-sm">
+      <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="">Z</span>
+            </div>
+            {{input class="form-control" type="text" placeholder="Z" value=z}}
+        </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm">
+      <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="">W</span>
+            </div>
+            {{input class="form-control" type="text" placeholder="W" value=w}}
+        </div>
+    </div>
+    <div class="col-sm">
+      <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="">P</span>
+            </div>
+            {{input class="form-control" type="text" placeholder="P" value=p}}
+        </div>
+    </div>
+    <div class="col-sm">
+      <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="">R</span>
+            </div>
+            {{input class="form-control" type="text" placeholder="R" value=r}}
+        </div>
+    </div>
+  </div>
+</div>    
+</div>
+
+
+            </div>
+            <div class="col-2">
+                <div class="form-group">
+                    <label for="f">Posioner frame</label>
+                    <div class="container" id = "f">
+  <div class="row">
+    <div class="col-sm">
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="">UF</span>
+            </div>
+            {{input class="form-control" type="text" placeholder="UF" value = PUF}}
+        </div>
+    </div>
+    </div>
+    <div class="row">
+    <div class="col-sm">
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="">UT</span>
+            </div>
+            {{input class="form-control" type="text" placeholder="UT" value = PUT}}
+        </div>
+    </div>
+    </div>
+    </div>
+                </div>
+            </div>
+            <div class="col-2">
+               <div class="form-group">
+                    <label for="f">Robot frame</label>
+                    <div class="container" id = "f">
+  <div class="row">
+    <div class="col-sm">
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="">UF</span>
+            </div>
+            {{input class="form-control" type="text" placeholder="UF" value = RUF}}
+        </div>
+    </div>
+    </div>
+    <div class="row">
+    <div class="col-sm">
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="">UT</span>
+            </div>
+            {{input class="form-control" type="text" placeholder="UT" value = RUT}}
+        </div>
+    </div>
+    </div>
+    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                 <div class="form-group">
+    <label for="ms">Параметры перемещения</label>
+    <div class="container" id = "mc">
+  <div class="row">
+    <div class="col-sm">
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="">Нормальное движение</span>
+            </div>
+            {{input class="form-control" type="text" placeholder="Нормальное движение" value = nm}}
+        </div>
+    </div>
+    </div>
+    <div class="row">
+    <div class="col-sm">
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="">Движение с дугой</span>
+            </div>
+            {{input class="form-control" type="text" placeholder="Движение с дугой" value = wm}}
+        </div>
+    </div>
+    </div>
+    <div class="row">
+    <div class="col-sm">
+        <label class="form-check-label">
+            Wrist:
+            </label>
+            
+            <select class="form-select" name="Wrist" onchange={{action "changeWrist" value="target.value"}} value=W>
+                <option value="Flip">Flip</option>
+                <option value="No-flip">No-flip</option>
+            </select>
+    </div>
+    <div class="col-sm">
+        <label class="form-check-label">
+            Arm:
+            </label>
+             <select class="form-select" name="Arm" onchange={{action "changeArm" value="target.value"}} value=A>
+                <option value="Down">Down</option>
+                <option value="Up">Up</option>
+            </select>        
+    </div>
+    <div class="col-sm">
+        <label class="form-check-label">
+            Base:
+            </label>
+            <select class="form-select" name="Base" onchange={{action "changeBase" value="target.value"}}  value=B>
+                <option value="Front">Front</option>
+                <option value="Back">Back</option>
+            </select>        
+    </div>
+    </div>
+    <div class="row">
+    <div class="col-sm">
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="">Turns J1:</span>
+            </div>
+            {{input class="form-control" type="text" value = j1}}
+        </div>
+    </div>
+    <div class="col-sm">
+             <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="">Turns J4:</span>
+            </div>
+            {{input class="form-control" type="text" value = j4}}
+        </div>
+    </div>
+    <div class="col-sm">
+            <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="">Turns J6:</span>
+            </div>
+            {{input class="form-control" type="text" value = j6}}
+        </div> 
+    </div>
+    </div>
+    </div>
+ </div>
+            </div>
+        </div>   
+         <div class="row">
+            <div class="col-6">
+                <div class="container">
+        <div class="row">
+                <div class="form-check">
+                    {{input class="form-check-input" type="checkbox" checked=Arc_disable}}
+                    <label class="form-check-label" for="exampleRadios1">
+                    Отключить дугу
+                    </label>
+                </div>
+            
+        </div>
+<div class="row">    
+<div class="form-check">
+  {{input class="form-check-input" type="checkbox" checked=Auto_arc}}
+  <label class="form-check-label" for="exampleRadios2">
+    Авто включение дуги
+  </label>
+</div>  
+</div>  
+<div class="row">    
+<div class="form-check">
+ {{input class="form-check-input" type="checkbox" checked=WELD_SPEED}}
+  <label class="form-check-label" for="exampleRadios2">
+    Использовать значение WELD_SPEED для скорости подачи
+  </label>
+  
+    </div>
+            
+</div>
+<div class="row"> 
+      <div class="col-sm">
+            <div class="form-check">
+                {{input class="form-check-input" type="checkbox" checked=WSEnable}}
+                <label class="form-check-label" for="exampleRadios1">
+                Weld shield
+                </label>
+                 
+            </div>
+            {{input class="form-control" type="text" enable = WSEnable value = WS}}
+            </div>
+</div>    
+<div class="row"> 
+    <div class="col-sm">
+            <div class="form-check">
+                {{input class="form-check-input" type="checkbox" checked=WEEnable}}
+                <label class="form-check-label" for="exampleRadios1">
+                Wave enable
+                </label>
+                 
+            </div>
+            {{input class="form-control" type="text" enable=WEEnable  value=WE}}
+            </div>   
+</div>    
+<div class="row"> 
+    <div class="col-sm">
+           <div class="form-check">
+                {{input class="form-check-input" type="checkbox" checked=RO}}
+                <label class="form-check-label" for="exampleRadios1">
+                RO
+                </label>
+                 
+            </div>
+            </div>   
+</div>   
+</div>
+            </div>
+        </div> 
+    </div>
+    
+    <div>   
+        
+    </div>  
+  <div class="form-footer">
+    <button type="submit" class="btn-submit">save</button>
+  </div>
+</form>

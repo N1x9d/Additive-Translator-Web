@@ -1,8 +1,15 @@
 version: '3.4'
 
 services:
-  additivetranslator:
+  backend:
     image: ${DOCKER_REGISTRY-}additivetranslator
     build:
       context: .
       dockerfile: Additive Translator/Dockerfile
+  client:
+    image: client
+    build:
+      context: ./EmberApp
+      dockerfile: Dockerfile
+  proxy:
+    image: nginx:mainline

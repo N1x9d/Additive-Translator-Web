@@ -1,0 +1,42 @@
+
+<input readonly value={{model.guid}} id="guid">
+<br>
+ <input type="file" id="inp" >
+
+                    <script>
+                        inp.onchange = async (evt) => {
+                         let file = inp.files[0];
+
+                        let reader = new FileReader();
+
+                        reader.readAsText(file);
+
+                        reader.onload = function() {
+                            let utf8Encode = new TextEncoder();
+                            let textBytes = utf8Encode.encode(reader.result);                           
+                            console.log(inp.value);
+
+                            let url = new URL(`http://localhost/api/LoadFile`);
+                            var data = 
+                            { 
+                                "id" : guid.value,
+                                "fName": inp.value
+                            };
+                            for (let k in data) { url.searchParams.append(k, data[k]); }
+                            return fetch(url, {
+                            method: 'POST',
+                            crossorigin: true,    
+                            mode: 'no-cors',   
+                            headers: {
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json; charset=utf8'
+                            },
+                            body: textBytes
+                            });
+                        };
+
+                        reader.onerror = function() {
+                            console.log(reader.error);
+                        };
+                            }</script>
+{{gcode-form x=model.x onsubmit=(action "sendGcode")}}
